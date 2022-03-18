@@ -328,6 +328,9 @@ private:
         elementCtx_.resize(ThreadManager::maxThreads());
         for (unsigned threadId = 0; threadId != ThreadManager::maxThreads(); ++ threadId)
             elementCtx_[threadId] = new ElementContext(simulator_());
+
+        threadedElemIt_ = std::make_unique<ThreadedEntityIteratorNoLock<GridView,0>>(gridView_(),
+                                                                                     ThreadManager::maxThreads());
     }
 
     // Construct the BCRS matrix for the Jacobian of the residual function
@@ -389,14 +392,14 @@ private:
         constraintsMap_.clear();
 
         // loop over all elements...
-        ThreadedEntityIterator<GridView, /*codim=*/0> threadedElemIt(gridView_());
+        //ThreadedEntityIterator<GridView, /*codim=*/0> threadedElemIt(gridView_());
 #ifdef _OPENMP
 #pragma omp parallel
 #endif
         {
             unsigned threadId = ThreadManager::threadId();
-            ElementIterator elemIt = threadedElemIt.beginParallel();
-            for (; !threadedElemIt.isFinished(elemIt); elemIt = threadedElemIt.increment()) {
+            ElementIterator elemIt = threadedElemIt_->beginParallel(threadId);
+            for (; !threadedElemIt_->isFinished(elemIt,threadId); elemIt = threadedElemIt_->increment(threadId)) {
                 // create an element context (the solution-based quantities are not
                 // available here!)
                 const Element& elem = *elemIt;
@@ -447,19 +450,20 @@ private:
         std::exception_ptr exceptionPtr = nullptr;
 
         // relinearize the elements...
-        ThreadedEntityIterator<GridView, /*codim=*/0> threadedElemIt(gridView_());
+//        ThreadedEntityIterator<GridView, /*codim=*/0> threadedElemIt(gridView_());
 #ifdef _OPENMP
 #pragma omp parallel
 #endif
         {
-            ElementIterator elemIt = threadedElemIt.beginParallel();
+            unsigned threadId = ThreadManager::threadId();
+            ElementIterator elemIt = threadedElemIt_->beginParallel(threadId);
             ElementIterator nextElemIt = elemIt;
             try {
-                for (; !threadedElemIt.isFinished(elemIt); elemIt = nextElemIt) {
+                for (; !threadedElemIt_->isFinished(elemIt,threadId); elemIt = nextElemIt) {
                     // give the model and the problem a chance to prefetch the data required
                     // to linearize the next element, but only if we need to consider it
-                    nextElemIt = threadedElemIt.increment();
-                    if (!threadedElemIt.isFinished(nextElemIt)) {
+                    nextElemIt = threadedElemIt_->increment(threadId);
+                    if (!threadedElemIt_->isFinished(nextElemIt,threadId)) {
                         const auto& nextElem = *nextElemIt;
                         if (linearizeNonLocalElements
                             || nextElem.partitionType() == Dune::InteriorEntity)
@@ -488,7 +492,7 @@ private:
             catch(...) {
                 std::lock_guard<std::mutex> take(exceptionLock);
                 exceptionPtr = std::current_exception();
-                threadedElemIt.setFinished();
+                threadedElemIt_->setFinished();
             }
         }  // parallel block
 
@@ -593,6 +597,7 @@ private:
     GlobalEqVector residual_;
 
     LinearizationType linearizationType_;
+    std::unique_ptr<ThreadedEntityIteratorNoLock<GridView, /*codim=*/0>> threadedElemIt_;
 
     std::mutex globalMatrixMutex_;
 };

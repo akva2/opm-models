@@ -96,6 +96,76 @@ private:
 
     std::mutex mutex_;
 };
+
+/*!
+ * \brief Provides an STL-iterator like interface to iterate over the enties of a
+ *        GridView in OpenMP threaded applications
+ *
+ * ATTENTION: This class must be instantiated in a sequential context!
+ */
+template <class GridView, int codim>
+class ThreadedEntityIteratorNoLock
+{
+    using Entity = typename GridView::template Codim<codim>::Entity;
+    using EntityIterator = typename GridView::template Codim<codim>::Iterator;
+public:
+    ThreadedEntityIteratorNoLock(const GridView& gridView, unsigned nthreads)
+        : gridView_(gridView)
+    {
+      unsigned size = gridView.size(codim);
+      unsigned nperthread = size / nthreads;
+      unsigned rest = size % nthreads;
+      threadStartIt_.resize(nthreads, gridView.template begin<codim>());
+      threadEndIt_.resize(nthreads, gridView.template end<codim>());
+      for (unsigned t = 0; t < nthreads; ++t) {
+        if (t > 0)
+          threadStartIt_[t] = threadEndIt_[t-1];
+        threadEndIt_[t] = threadStartIt_[t];
+        std::advance(threadEndIt_[t], nperthread);
+      }
+      std::advance(threadEndIt_.back(), rest);
+      threadIt_ = threadStartIt_;
+    }
+
+    ThreadedEntityIteratorNoLock(const ThreadedEntityIteratorNoLock& other) = default;
+
+    // begin iterating over the grid in parallel
+    EntityIterator beginParallel(unsigned threadId)
+    {
+      threadIt_[threadId] = threadStartIt_[threadId];
+      return threadStartIt_[threadId];
+    }
+
+    // returns true if the last element was reached
+    bool isFinished(const EntityIterator& it, unsigned threadId) const
+    {
+      return it == threadEndIt_[threadId];
+    }
+
+    // make sure that the loop over the grid is finished
+    void setFinished()
+    {
+      assert(0);
+    }
+
+    // prefix increment: goes to the next element which is not yet worked on by any
+    // thread
+    EntityIterator increment(unsigned threadId)
+    {
+        if (threadIt_[threadId] != threadEndIt_[threadId])
+          ++threadIt_[threadId];
+
+        return threadIt_[threadId];
+    }
+
+private:
+    GridView gridView_;
+    std::vector<EntityIterator> threadStartIt_;
+    std::vector<EntityIterator> threadIt_;
+    std::vector<EntityIterator> threadEndIt_;
+};
+
+
 } // namespace Opm
 
 #endif
