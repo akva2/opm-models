@@ -112,17 +112,50 @@ class FvBaseLinearizer
 
 public:
     FvBaseLinearizer()
-        : jacobian_()
+        : jacobian_(), ass_timer(false), global_reset_timer(false)
     {
         simulatorPtr_ = 0;
+        global_ass_timer.resize(ThreadManager::maxThreads(), {false});
     }
 
     ~FvBaseLinearizer()
     {
+        reportTimers();
         auto it = elementCtx_.begin();
         const auto& endIt = elementCtx_.end();
         for (; it != endIt; ++it)
             delete *it;
+    }
+
+    void reportTimers()
+    {
+        std::cout << "Assembly time says "
+                  << ass_timer.elapsed()
+                  << "\n  Global reset "
+                  << global_reset_timer.elapsed()
+                  << "\n  Global matrix assembly";
+        for (unsigned i = 0; i < ThreadManager::maxThreads(); ++i)
+            std::cout << " " << global_ass_timer[i].elapsed();
+        std::cout << "\n  Element linearization";
+        for (unsigned i = 0; i < ThreadManager::maxThreads(); ++i)
+          std::cout << " " << model_().localLinearizer(i).lin_elem_timer.elapsed();
+        for (unsigned i = 0; i < ThreadManager::maxThreads(); ++i)
+            std::cout << "\n  Thread " << i
+                      << "\n    Update stencil "
+                      << model_().localLinearizer(i).update_stencil_timer.elapsed()
+                      << "\n    Update intensive "
+                      << model_().localLinearizer(i).update_i_timer.elapsed()
+                      << "\n    Update pv "
+                      << model_().localLinearizer(i).update_pv_timer.elapsed()
+                      << "\n    Reset "
+                      << model_().localLinearizer(i).reset_timer.elapsed()
+                      << "\n    Update extensive "
+                      << model_().localLinearizer(i).update_e_timer.elapsed()
+                      << "\n    Update residual "
+                      << model_().localLinearizer(i).update_residual_timer.elapsed()
+                      << "\n    Convert residual "
+                      << model_().localLinearizer(i).conv_residual_timer.elapsed();
+        std::cout << std::endl;
     }
 
     /*!
@@ -427,7 +460,10 @@ private:
     // linearize the whole system
     void linearize_()
     {
+        ass_timer.start();
+        global_reset_timer.start();
         resetSystem_();
+        global_reset_timer.stop();
 
         // before the first iteration of each time step, we need to update the
         // constraints. (i.e., we assume that constraints can be time dependent, but they
@@ -500,6 +536,8 @@ private:
         }
 
         applyConstraintsToLinearization_();
+
+        ass_timer.stop();
     }
 
     // linearize an element in the interior of the process' grid partition
@@ -514,6 +552,7 @@ private:
         localLinearizer.linearize(*elementCtx, elem);
 
         // update the right hand side and the Jacobian matrix
+        global_ass_timer[threadId].start();
         if (getPropValue<TypeTag, Properties::UseLinearizationLock>())
             globalMatrixMutex_.lock();
 
@@ -534,6 +573,7 @@ private:
 
         if (getPropValue<TypeTag, Properties::UseLinearizationLock>())
             globalMatrixMutex_.unlock();
+        global_ass_timer[threadId].stop();
     }
 
     // apply the constraints to the solution. (i.e., the solution of constraint degrees
@@ -595,6 +635,9 @@ private:
     LinearizationType linearizationType_;
 
     std::mutex globalMatrixMutex_;
+
+    Dune::Timer ass_timer, global_reset_timer;
+    std::vector<Dune::Timer> global_ass_timer;
 };
 
 } // namespace Opm

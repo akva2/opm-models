@@ -39,6 +39,7 @@
 
 #include <dune/common/fvector.hh>
 #include <dune/common/fmatrix.hh>
+#include <dune/common/timer.hh>
 
 namespace Opm {
 // forward declaration
@@ -109,8 +110,25 @@ private:
     using ScalarLocalBlockMatrix = Dune::Matrix<ScalarMatrixBlock>;
 
 public:
+    Dune::Timer update_stencil_timer;
+    Dune::Timer lin_elem_timer;
+    Dune::Timer update_i_timer;
+    Dune::Timer update_pv_timer;
+    Dune::Timer reset_timer;
+    Dune::Timer update_e_timer;
+    Dune::Timer update_residual_timer;
+    Dune::Timer conv_residual_timer;
+
     FvBaseAdLocalLinearizer()
-        : internalElemContext_(0)
+        : update_stencil_timer(false),
+          lin_elem_timer(false),
+          update_i_timer(false),
+          update_pv_timer(false),
+          reset_timer(false),
+          update_e_timer(false),
+          update_residual_timer(false),
+          conv_residual_timer(false),
+          internalElemContext_(0)
     { }
 
     // copying local linearizer objects around is a very bad idea, so we explicitly
@@ -119,6 +137,17 @@ public:
 
     ~FvBaseAdLocalLinearizer()
     { delete internalElemContext_; }
+
+    double getTimerSum() const
+    {
+      return update_stencil_timer.elapsed() +
+             update_i_timer.elapsed() +
+             update_pv_timer.elapsed() +
+             reset_timer.elapsed() +
+             update_e_timer.elapsed() +
+             update_residual_timer.elapsed() +
+             conv_residual_timer.elapsed();
+    }
 
     /*!
      * \brief Register all run-time parameters for the local jacobian.
@@ -173,30 +202,46 @@ public:
      */
     void linearize(ElementContext& elemCtx, const Element& elem)
     {
+        lin_elem_timer.start();
+        update_stencil_timer.start();
         elemCtx.updateStencil(elem);
+        update_stencil_timer.stop();
+        update_i_timer.start();
         elemCtx.updateAllIntensiveQuantities();
+        update_i_timer.stop();
 
         // update the weights of the primary variables for the context
+        update_pv_timer.start();
         model_().updatePVWeights(elemCtx);
+        update_pv_timer.stop();
 
         // resize the internal arrays of the linearizer
+        reset_timer.start();
         resize_(elemCtx);
         reset_(elemCtx);
+        reset_timer.stop();
 
         // compute the local residual and its Jacobian
         unsigned numPrimaryDof = elemCtx.numPrimaryDof(/*timeIdx=*/0);
         for (unsigned focusDofIdx = 0; focusDofIdx < numPrimaryDof; focusDofIdx++) {
             elemCtx.setFocusDofIndex(focusDofIdx);
+            update_e_timer.start();
             elemCtx.updateAllExtensiveQuantities();
+            update_e_timer.stop();
 
             // calculate the local residual
+            update_residual_timer.start();
             localResidual_.eval(elemCtx);
+            update_residual_timer.stop();
 
             // convert the local Jacobian matrix and the right hand side from the data
             // structures used by the automatic differentiation code to the conventional
             // ones used by the linear solver.
+            conv_residual_timer.start();
             updateLocalLinearization_(elemCtx, focusDofIdx);
+            conv_residual_timer.stop();
         }
+        lin_elem_timer.stop();
     }
 
     /*!
