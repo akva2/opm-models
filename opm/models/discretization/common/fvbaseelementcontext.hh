@@ -93,13 +93,23 @@ public:
      */
     explicit FvBaseElementContext(const Simulator& simulator)
         : gridView_(simulator.gridView())
-        , stencil_(gridView_, simulator.model().dofMapper() )
+        , intStencil_(simulator.gridView(), simulator.model().dofMapper() )
     {
         // remember the simulator object
         simulatorPtr_ = &simulator;
         enableStorageCache_ = EWOMS_GET_PARAM(TypeTag, bool, EnableStorageCache);
         stashedDofIdx_ = -1;
         focusDofIdx_ = -1;
+        stencil_ = &intStencil_;
+    }
+
+    void updateStencilCache()
+    {
+        stencilCache_.resize(gridView_.size(0));
+        for (auto it = gridView_.template begin<0>(); it != gridView_.template end<0>(); ++it) {
+            stencilCache_[it->index()] = std::make_unique<Stencil>(gridView_, simulatorPtr_->model().dofMapper());
+            stencilCache_[it->index()]->update(*it);
+        }
     }
 
     static void *operator new(size_t size)
@@ -133,14 +143,18 @@ public:
         // remember the current element
         elemPtr_ = &elem;
 
-        // update the stencil. the center gradients are quite expensive to calculate and
-        // most models don't need them, so that we only do this if the model explicitly
-        // enables them
-        stencil_.update(elem);
+        if (stencilCache_.empty()) {
+            // update the stencil. the center gradients are quite expensive to calculate and
+            // most models don't need them, so that we only do this if the model explicitly
+            // enables them
+            stencil_ = &intStencil_;
+            stencil_->update(elem);
+        } else
+            stencil_ = stencilCache_[elem.index()].get();
 
         // resize the arrays containing the flux and the volume variables
-        dofVars_.resize(stencil_.numDof());
-        extensiveQuantities_.resize(stencil_.numInteriorFaces());
+        dofVars_.resize(stencil_->numDof());
+        extensiveQuantities_.resize(stencil_->numInteriorFaces());
     }
 
     /*!
@@ -154,10 +168,16 @@ public:
         // remember the current element
         elemPtr_ = &elem;
 
-        // update the finite element geometry
-        stencil_.updatePrimaryTopology(elem);
+        if (stencilCache_.empty()) {
+          // update the stencil. the center gradients are quite expensive to calculate and
+          // most models don't need them, so that we only do this if the model explicitly
+          // enables them
+          stencil_ = &intStencil_;
+          stencil_->update(elem);
+        } else
+          stencil_ = stencilCache_[elem.index()].get();
 
-        dofVars_.resize(stencil_.numPrimaryDof());
+        dofVars_.resize(stencil_->numPrimaryDof());
     }
 
     /*!
@@ -172,7 +192,7 @@ public:
         elemPtr_ = &elem;
 
         // update the finite element geometry
-        stencil_.updateTopology(elem);
+        stencil_->updateTopology(elem);
     }
 
     /*!
@@ -339,7 +359,7 @@ public:
      *                time discretization.
      */
     const Stencil& stencil(unsigned) const
-    { return stencil_; }
+    { return *stencil_; }
 
     /*!
      * \brief Return the position of a local entities in global coordinates
@@ -350,7 +370,7 @@ public:
      *                time discretization.
      */
     const GlobalPosition& pos(unsigned dofIdx, unsigned) const
-    { return stencil_.subControlVolume(dofIdx).globalPos(); }
+    { return stencil_->subControlVolume(dofIdx).globalPos(); }
 
     /*!
      * \brief Return the global spatial index for a sub-control volume
@@ -603,7 +623,9 @@ protected:
     const Simulator *simulatorPtr_;
     const Element *elemPtr_;
     const GridView gridView_;
-    Stencil stencil_;
+    Stencil* stencil_;
+    Stencil intStencil_;
+    std::vector<std::unique_ptr<Stencil>> stencilCache_;
 
     int stashedDofIdx_;
     int focusDofIdx_;

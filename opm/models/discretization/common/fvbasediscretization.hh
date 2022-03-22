@@ -280,6 +280,10 @@ struct EnableConstraints<TypeTag, TTag::FvBaseDiscretization> { static constexpr
 template<class TypeTag>
 struct EnableIntensiveQuantityCache<TypeTag, TTag::FvBaseDiscretization> { static constexpr bool value = false; };
 
+// use the stencil cache by default
+template<class TypeTag>
+struct EnableStencilCache<TypeTag, TTag::FvBaseDiscretization> { static constexpr bool value = true; };
+
 // do not use thermodynamic hints by default. If you enable this, make sure to also
 // enable the intensive quantity cache above to avoid getting an exception...
 template<class TypeTag>
@@ -507,6 +511,7 @@ public:
         EWOMS_REGISTER_PARAM(TypeTag, bool, EnableThermodynamicHints, "Enable thermodynamic hints");
         EWOMS_REGISTER_PARAM(TypeTag, bool, EnableIntensiveQuantityCache, "Turn on caching of intensive quantities");
         EWOMS_REGISTER_PARAM(TypeTag, bool, EnableStorageCache, "Store previous storage terms and avoid re-calculating them.");
+        EWOMS_REGISTER_PARAM(TypeTag, bool, EnableStencilCache, "Store stencils and avoid re-calculating them.");
         EWOMS_REGISTER_PARAM(TypeTag, std::string, OutputDir, "The directory to which result files are written");
     }
 

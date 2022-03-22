@@ -313,6 +313,16 @@ struct EnableStorageCache { using type = UndefinedProperty; };
 template<class TypeTag, class MyTypeTag>
 struct EnableThermodynamicHints { using type = UndefinedProperty; };
 
+/*!
+ * \brief Specify whether all stencils for the grid should be
+ *        cached in the discretization.
+ *
+ * This potentially reduces the CPU time, but comes at the cost of
+ * higher memory consumption.
+ */
+template<class TypeTag, class MyTypeTag>
+struct EnableStencilCache { using type = UndefinedProperty; };
+
 // mappers from local to global DOF indices
 
 /*!

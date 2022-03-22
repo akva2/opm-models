@@ -150,6 +150,7 @@ public:
             delete *it;
         }
         elementCtx_.resize(0);
+
     }
 
     /*!
@@ -326,8 +327,11 @@ private:
 
         // create the per-thread context objects
         elementCtx_.resize(ThreadManager::maxThreads());
-        for (unsigned threadId = 0; threadId != ThreadManager::maxThreads(); ++ threadId)
+        for (unsigned threadId = 0; threadId != ThreadManager::maxThreads(); ++ threadId) {
             elementCtx_[threadId] = new ElementContext(simulator_());
+            if (EWOMS_GET_PARAM(TypeTag, bool, EnableStencilCache))
+                elementCtx_[threadId]->updateStencilCache();
+        }
     }
 
     // Construct the BCRS matrix for the Jacobian of the residual function
