@@ -153,8 +153,10 @@ public:
             stencil_ = stencilCache_[elem.index()].get();
 
         // resize the arrays containing the flux and the volume variables
-        dofVars_.resize(stencil_->numDof());
-        extensiveQuantities_.resize(stencil_->numInteriorFaces());
+        if (dofVars_.size() < stencil_->numDof())
+            dofVars_.resize(stencil_->numDof());
+        if (extensiveQuantities_.size() < stencil_->numInteriorFaces())
+            extensiveQuantities_.resize(stencil_->numInteriorFaces());
     }
 
     /*!
