@@ -149,8 +149,14 @@ public:
         for (; it != endIt; ++it){
             delete *it;
         }
-        elementCtx_.resize(0);
 
+        // create the per-thread context objects
+        elementCtx_.resize(ThreadManager::maxThreads());
+        for (unsigned threadId = 0; threadId != ThreadManager::maxThreads(); ++ threadId) {
+            elementCtx_[threadId] = new ElementContext(simulator_());
+            if (EWOMS_GET_PARAM(TypeTag, bool, EnableStencilCache))
+                elementCtx_[threadId]->updateStencilCache();
+        }
     }
 
     /*!
@@ -283,6 +289,8 @@ public:
         return linearizationType_;
     };
 
+    ElementContext& getElementContext(unsigned tId) { return *elementCtx_[tId]; }
+
     /*!
      * \brief Returns the map of constraint degrees of freedom.
      *
@@ -324,14 +332,6 @@ private:
         // initialize the Jacobian matrix and the vector for the residual function
         residual_.resize(model_().numTotalDof());
         resetSystem_();
-
-        // create the per-thread context objects
-        elementCtx_.resize(ThreadManager::maxThreads());
-        for (unsigned threadId = 0; threadId != ThreadManager::maxThreads(); ++ threadId) {
-            elementCtx_[threadId] = new ElementContext(simulator_());
-            if (EWOMS_GET_PARAM(TypeTag, bool, EnableStencilCache))
-                elementCtx_[threadId]->updateStencilCache();
-        }
     }
 
     // Construct the BCRS matrix for the Jacobian of the residual function

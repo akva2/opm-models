@@ -780,7 +780,7 @@ public:
 #pragma omp parallel
 #endif
         {
-            ElementContext elemCtx(simulator_);
+            ElementContext& elemCtx = linearizer_->getElementContext(ThreadManager::threadId());
             ElementIterator elemIt = threadedElemIt.beginParallel();
             for (; !threadedElemIt.isFinished(elemIt); elemIt = threadedElemIt.increment()) {
                 const Element& elem = *elemIt;
@@ -909,7 +909,7 @@ public:
             // Attention: the variables below are thread specific and thus cannot be
             // moved in front of the #pragma!
             unsigned threadId = ThreadManager::threadId();
-            ElementContext elemCtx(simulator_);
+            ElementContext& elemCtx = linearizer_->getElementContext(threadId);
             ElementIterator elemIt = threadedElemIt.beginParallel();
             LocalEvalBlockVector residual, storageTerm;
 
@@ -970,7 +970,7 @@ public:
             // Attention: the variables below are thread specific and thus cannot be
             // moved in front of the #pragma!
             unsigned threadId = ThreadManager::threadId();
-            ElementContext elemCtx(simulator_);
+            ElementContext& elemCtx = linearizer_->getElementContext(threadId);
             ElementIterator elemIt = threadedElemIt.beginParallel();
             LocalEvalBlockVector elemStorage;
 
@@ -1035,7 +1035,7 @@ public:
         globalStorage(storageEndTimeStep, /*timeIdx=*/0);
 
         // calculate the rate at the boundary and the source rate
-        ElementContext elemCtx(simulator_);
+        ElementContext& elemCtx = linearizer_->getElementContext(0);
         elemCtx.setEnableStorageCache(false);
         auto eIt = simulator_.gridView().template begin</*codim=*/0>();
         const auto& elemEndIt = simulator_.gridView().template end</*codim=*/0>();
@@ -1738,7 +1738,7 @@ public:
 #pragma omp parallel
 #endif
         {
-            ElementContext elemCtx(simulator_);
+            ElementContext& elemCtx = linearizer_->getElementContext(ThreadManager::threadId());
             ElementIterator elemIt = threadedElemIt.beginParallel();
             for (; !threadedElemIt.isFinished(elemIt); elemIt = threadedElemIt.increment()) {
                 const auto& elem = *elemIt;

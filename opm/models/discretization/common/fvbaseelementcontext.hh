@@ -171,15 +171,13 @@ public:
         elemPtr_ = &elem;
 
         if (stencilCache_.empty()) {
-          // update the stencil. the center gradients are quite expensive to calculate and
-          // most models don't need them, so that we only do this if the model explicitly
-          // enables them
           stencil_ = &intStencil_;
-          stencil_->update(elem);
+          stencil_->updatePrimaryTopology(elem);
         } else
           stencil_ = stencilCache_[elem.index()].get();
 
-        dofVars_.resize(stencil_->numPrimaryDof());
+        if (dofVars_.size() < stencil_->numPrimaryDof())
+            dofVars_.resize(stencil_->numPrimaryDof());
     }
 
     /*!
@@ -193,8 +191,12 @@ public:
         // remember the current element
         elemPtr_ = &elem;
 
-        // update the finite element geometry
-        stencil_->updateTopology(elem);
+        if (stencilCache_.empty()) {
+          stencil_ = &intStencil_;
+          // update the finite element geometry
+          stencil_->updateTopology(elem);
+        } else
+          stencil_ = stencilCache_[elem.index()].get();
     }
 
     /*!
