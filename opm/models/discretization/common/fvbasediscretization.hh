@@ -770,17 +770,21 @@ public:
         invalidateIntensiveQuantitiesCache(timeIdx);
 
         // loop over all elements...
-        ThreadedEntityIterator<GridView, /*codim=*/0> threadedElemIt(gridView_);
+        //ThreadedEntityIterator<GridView, /*codim=*/0> threadedElemIt(gridView_);
 #ifdef _OPENMP
 #pragma omp parallel
 #endif
         {
             ElementContext elemCtx(simulator_);
-            ElementIterator elemIt = threadedElemIt.beginParallel();
-            for (; !threadedElemIt.isFinished(elemIt); elemIt = threadedElemIt.increment()) {
-                const Element& elem = *elemIt;
-                elemCtx.updatePrimaryStencil(elem);
-                elemCtx.updatePrimaryIntensiveQuantities(/*timeIdx=*/0);
+            size_t id = 0;
+            auto elemIt = gridView_.template begin<0>();
+            auto endIt = gridView_.template end<0>();
+            for (; elemIt != endIt; ++elemIt, ++id) {
+                if (id % ThreadManager::maxThreads() == ThreadManager::threadId()) {
+                    const Element& elem = *elemIt;
+                    elemCtx.updatePrimaryStencil(elem);
+                    elemCtx.updatePrimaryIntensiveQuantities(/*timeIdx=*/0);
+                }
             }
         }
     }

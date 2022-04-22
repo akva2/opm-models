@@ -447,19 +447,19 @@ private:
         std::exception_ptr exceptionPtr = nullptr;
 
         // relinearize the elements...
-        ThreadedEntityIterator<GridView, /*codim=*/0> threadedElemIt(gridView_());
+        //ThreadedEntityIterator<GridView, /*codim=*/0> threadedElemIt(gridView_());
 #ifdef _OPENMP
 #pragma omp parallel
 #endif
         {
-            ElementIterator elemIt = threadedElemIt.beginParallel();
-            ElementIterator nextElemIt = elemIt;
-            try {
-                for (; !threadedElemIt.isFinished(elemIt); elemIt = nextElemIt) {
-                    // give the model and the problem a chance to prefetch the data required
-                    // to linearize the next element, but only if we need to consider it
-                    nextElemIt = threadedElemIt.increment();
+            auto elemIt = gridView_().template begin<0>();
+            auto endIt = gridView_().template end<0>();
 
+            try {
+                size_t id = 0;
+                for (; elemIt != endIt; ++elemIt, ++id) {
+                    if (id % ThreadManager::maxThreads() != ThreadManager::threadId())
+                      continue;
                     const Element& elem = *elemIt;
                     if (!linearizeNonLocalElements && elem.partitionType() != Dune::InteriorEntity)
                         continue;
@@ -479,7 +479,7 @@ private:
             catch(...) {
                 std::lock_guard<std::mutex> take(exceptionLock);
                 exceptionPtr = std::current_exception();
-                threadedElemIt.setFinished();
+                //threadedElemIt.setFinished();
             }
         }  // parallel block
 
