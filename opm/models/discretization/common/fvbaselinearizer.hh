@@ -454,12 +454,31 @@ private:
         {
             auto elemIt = gridView_().template begin<0>();
             auto endIt = gridView_().template end<0>();
+            auto nextElemIt = elemIt;
+            if (gridView_().size(0) < int(ThreadManager::maxThreads()))
+              nextElemIt = endIt;
+            else
+              std::advance(nextElemIt, ThreadManager::maxThreads());
 
             try {
                 size_t id = 0;
                 for (; elemIt != endIt; ++elemIt, ++id) {
+                    if (nextElemIt != endIt)
+                        ++nextElemIt;
+
                     if (id % ThreadManager::maxThreads() != ThreadManager::threadId())
                       continue;
+
+                    if (nextElemIt != endIt) {
+                        const auto& nextElem = *nextElemIt;
+                        if (linearizeNonLocalElements
+                            || nextElem.partitionType() == Dune::InteriorEntity)
+                        {
+                            model_().prefetch(nextElem);
+                            problem_().prefetch(nextElem);
+                        }
+                    }
+
                     const Element& elem = *elemIt;
                     if (!linearizeNonLocalElements && elem.partitionType() != Dune::InteriorEntity)
                         continue;
