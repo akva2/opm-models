@@ -459,15 +459,6 @@ private:
                     // give the model and the problem a chance to prefetch the data required
                     // to linearize the next element, but only if we need to consider it
                     nextElemIt = threadedElemIt.increment();
-                    if (!threadedElemIt.isFinished(nextElemIt)) {
-                        const auto& nextElem = *nextElemIt;
-                        if (linearizeNonLocalElements
-                            || nextElem.partitionType() == Dune::InteriorEntity)
-                        {
-                            model_().prefetch(nextElem);
-                            problem_().prefetch(nextElem);
-                        }
-                    }
 
                     const Element& elem = *elemIt;
                     if (!linearizeNonLocalElements && elem.partitionType() != Dune::InteriorEntity)
