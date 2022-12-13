@@ -344,12 +344,14 @@ public:
 
         Opm::OilPvtMultiplexer<Scalar> *oilPvt = new Opm::OilPvtMultiplexer<Scalar>;
         oilPvt->setApproach(OilPvtApproach::LiveOilPvt);
-        auto& liveOilPvt = oilPvt->template getRealPvt<OilPvtApproach::LiveOilPvt>();
-        liveOilPvt.setNumRegions(/*numPvtRegion=*/1);
-        liveOilPvt.setReferenceDensities(/*regionIdx=*/0, rhoRefO, rhoRefG, rhoRefW);
-        liveOilPvt.setSaturatedOilGasDissolutionFactor(/*regionIdx=*/0, Rs);
-        liveOilPvt.setSaturatedOilFormationVolumeFactor(/*regionIdx=*/0, Bo);
-        liveOilPvt.setSaturatedOilViscosity(/*regionIdx=*/0, muo);
+        oilPvt->visit([&](LiveOilPvt<Scalar>& pvt)
+                      {
+                          pvt.setNumRegions(/*numPvtRegion=*/1);
+                          pvt.setReferenceDensities(/*regionIdx=*/0, rhoRefO, rhoRefG, rhoRefW);
+                          pvt.setSaturatedOilGasDissolutionFactor(/*regionIdx=*/0, Rs);
+                          pvt.setSaturatedOilFormationVolumeFactor(/*regionIdx=*/0, Bo);
+                          pvt.setSaturatedOilViscosity(/*regionIdx=*/0, muo);
+                      });
 
         Opm::WaterPvtMultiplexer<Scalar> *waterPvt = new Opm::WaterPvtMultiplexer<Scalar>;
         waterPvt->setApproach(WaterPvtApproach::ConstantCompressibilityWaterPvt);
