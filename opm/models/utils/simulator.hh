@@ -970,6 +970,36 @@ public:
         restarter.deserializeSectionEnd();
     }
 
+    template<class Serializer>
+    void serializeOp(Serializer& serializer)
+    {
+        serializer(*vanguard_);
+        serializer(*model_);
+        serializer(episodeIdx_);
+        serializer(episodeStartTime_);
+        serializer(episodeLength_);
+        serializer(startTime_);
+        serializer(time_);
+        serializer(timeStepIdx_);
+    }
+
+    bool operator==(const Simulator& rhs) const
+    {
+        return *vanguard_ == *rhs.vanguard_ &&
+               *model_ == *rhs.model_ &&
+               this->episodeIdx_ == rhs.episodeIdx_ &&
+               this->episodeStartTime_ == rhs.episodeStartTime_ &&
+               this->episodeLength_ == rhs.episodeLength_ &&
+               this->startTime_ == rhs.startTime_ &&
+               this->time_ == rhs.time_ &&
+               this->timeStepIdx_ == rhs.timeStepIdx_;
+    }
+
+    void hack(bool backup)
+    {
+        vanguard_->hack(backup);
+    }
+
 private:
     std::unique_ptr<Vanguard> vanguard_;
     std::unique_ptr<Model> model_;

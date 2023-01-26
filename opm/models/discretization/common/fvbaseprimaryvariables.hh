@@ -32,6 +32,8 @@
 
 #include "fvbaseproperties.hh"
 #include "linearizationtype.hh"
+
+#include <opm/material/common/MathToolbox.hpp>
 #include <opm/material/common/Valgrind.hpp>
 
 #include <dune/common/fvector.hh>
@@ -50,6 +52,8 @@ class FvBasePrimaryVariables
     : public Dune::FieldVector<GetPropType<TypeTag, Properties::Scalar>,
                                getPropValue<TypeTag, Properties::NumEq>()>
 {
+    using Base= Dune::FieldVector<GetPropType<TypeTag, Properties::Scalar>,
+                                   getPropValue<TypeTag, Properties::NumEq>()>;
     using Scalar = GetPropType<TypeTag, Properties::Scalar>;
     using Evaluation = GetPropType<TypeTag, Properties::Evaluation>;
 
@@ -123,6 +127,12 @@ public:
     void checkDefined() const
     {
         Valgrind::CheckDefined(*static_cast<const ParentType*>(this));
+    }
+
+    template<class Serializer>
+    void serializeOp(Serializer& serializer)
+    {
+        serializer(static_cast<Base&>(*this));
     }
 };
 

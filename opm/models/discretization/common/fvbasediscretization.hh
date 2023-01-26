@@ -392,6 +392,12 @@ class FvBaseDiscretization
         { return blockVector_; }
         const SolutionVector& blockVector() const
         { return blockVector_; }
+
+        template<class Serializer>
+        void serializeOp(Serializer& serializer)
+        {
+            serializer(blockVector_);
+        }
     };
 
 #if HAVE_DUNE_FEM
@@ -1869,6 +1875,33 @@ public:
     const Timer& updateTimer() const
     { return updateTimer_; }
 
+    template<class Serializer>
+    void serializeOp(Serializer& serializer)
+    {
+        serializer(intensiveQuantityCache_);
+        serializer(intensiveQuantityCacheUpToDate_);
+        for (auto& sol : solution_)
+            serializer(*sol);
+        serializer(storageCache_);
+    }
+
+    bool operator==(const FvBaseDiscretization& rhs) const
+    {
+        if (storageCache_.size() != rhs.storageCache_.size())
+            return false;
+        for (size_t i = 0; i < storageCache_.size(); ++i) {
+            if (storageCache_[i].size() != rhs.storageCache_[i].size())
+                return false;
+            for (size_t j = 0; j < storageCache_[i].size(); ++j) {
+                if (!(storageCache_[i][j] == rhs.storageCache_[i][j]))
+                    return false;
+            }
+        }
+
+        return this->intensiveQuantityCache_ == rhs.intensiveQuantityCache_  &&
+               this->intensiveQuantityCacheUpToDate_ == rhs.intensiveQuantityCacheUpToDate_;
+    }
+
 protected:
     void resizeAndResetIntensiveQuantitiesCache_()
     {
@@ -1957,9 +1990,9 @@ protected:
 
     // cur is the current iterative solution, prev the converged
     // solution of the previous time step
-    mutable IntensiveQuantitiesVector intensiveQuantityCache_[historySize];
+    mutable std::array<IntensiveQuantitiesVector,historySize> intensiveQuantityCache_;
     // while these are logically bools, concurrent writes to vector<bool> are not thread safe.
-    mutable std::vector<unsigned char> intensiveQuantityCacheUpToDate_[historySize];
+    mutable std::array<std::vector<unsigned char>, historySize> intensiveQuantityCacheUpToDate_;
 
     DiscreteFunctionSpace space_;
     mutable std::array< std::unique_ptr< DiscreteFunction >, historySize > solution_;
@@ -1976,7 +2009,7 @@ protected:
     std::vector<Scalar> dofTotalVolume_;
     std::vector<bool> isLocalDof_;
 
-    mutable GlobalEqVector storageCache_[historySize];
+    mutable std::array<GlobalEqVector,historySize> storageCache_;
 
     bool enableGridAdaptation_;
     bool enableIntensiveQuantityCache_;

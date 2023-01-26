@@ -560,6 +560,17 @@ public:
     Scalar referencePorosity() const
     { return referencePorosity_; }
 
+    template<class Serializer>
+    void serializeOp(Serializer& serializer)
+    {
+        serializer(fluidState_);
+    }
+
+    bool operator==(const BlackOilIntensiveQuantities& rhs) const
+    {
+        return this->fluidState_ == rhs.fluidState_;
+    }
+
 private:
     friend BlackOilSolventIntensiveQuantities<TypeTag>;
     friend BlackOilExtboIntensiveQuantities<TypeTag>;
