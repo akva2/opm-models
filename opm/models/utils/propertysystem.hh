@@ -237,6 +237,11 @@ using GetSplicePropType = typename Properties::Detail::GetSplicePropImpl<TypeTag
 //! get the value data member of a property
 template<class TypeTag, template<class,class> class Property>
 constexpr auto getPropValue() { return Properties::Detail::GetPropImpl<TypeTag, Property>::type::value; }
+
+//! get the name data member of a property
+template<class TypeTag, template<class,class> class Property>
+constexpr auto getPropName() { return Properties::Detail::GetPropImpl<TypeTag, Property>::type::name; }
+
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
