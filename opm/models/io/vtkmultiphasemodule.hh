@@ -258,7 +258,7 @@ public:
             }
 
             for (unsigned phaseIdx = 0; phaseIdx < numPhases; ++phaseIdx) {
-                if (!FluidSystem::phaseIsActive(phaseIdx)) {
+                if (!fs.fluidSystem().phaseIsActive(phaseIdx)) {
                     continue;
                 }
                 if (pressureOutput_())
