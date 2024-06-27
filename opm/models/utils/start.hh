@@ -78,12 +78,12 @@ static inline void registerAllParameters_(bool finalizeRegistration = true)
     using Simulator = GetPropType<TypeTag, Properties::Simulator>;
     using ThreadManager = GetPropType<TypeTag, Properties::ThreadManager>;
 
-    Parameters::registerParam<TypeTag, Properties::ParameterFile>
+    Parameters::registerParam<Properties::ParameterFile>
         ("An .ini file which contains a set of run-time parameters");
-    Parameters::registerParam<TypeTag, Properties::PrintProperties>
+    Parameters::registerParam<Properties::PrintProperties>
         ("Print the values of the compile time properties at "
          "the start of the simulation");
-    Parameters::registerParam<TypeTag, Properties::PrintParameters>
+    Parameters::registerParam<Properties::PrintParameters>
         ("Print the values of the run-time parameters at the "
          "start of the simulation");
 
@@ -150,7 +150,7 @@ static inline int setupParameters_(int argc,
         return status;
     }
 
-    const std::string paramFileName = Parameters::get<TypeTag, Properties::ParameterFile>(false);
+    const std::string paramFileName = Parameters::get<Properties::ParameterFile>(false);
     if (!paramFileName.empty()) {
         ////////////////////////////////////////////////////////////
         // add the parameters specified using an .ini file
@@ -318,7 +318,7 @@ static inline int start(int argc, char **argv,  bool registerParams=true)
 #endif
 
         // read the initial time step and the end time
-        Scalar endTime = Parameters::get<TypeTag, Properties::EndTime>();
+        Scalar endTime = Parameters::get<Properties::EndTime>();
         if (endTime < -1e50) {
             if (myRank == 0)
                 Parameters::printUsage<TypeTag>(argv[0],
@@ -326,7 +326,7 @@ static inline int start(int argc, char **argv,  bool registerParams=true)
             return 1;
         }
 
-        Scalar initialTimeStepSize = Parameters::get<TypeTag, Properties::InitialTimeStepSize>();
+        Scalar initialTimeStepSize = Parameters::get<Properties::InitialTimeStepSize>();
         if (initialTimeStepSize < -1e50) {
             if (myRank == 0)
                 Parameters::printUsage<TypeTag>(argv[0],
@@ -354,7 +354,7 @@ static inline int start(int argc, char **argv,  bool registerParams=true)
         }
 
         // print the parameters if requested
-        int printParams = Parameters::get<TypeTag, Properties::PrintParameters>();
+        int printParams = Parameters::get<Properties::PrintParameters>();
         if (myRank == 0) {
             std::string endParametersSeparator("# [end of parameters]\n");
             if (printParams) {
@@ -378,7 +378,7 @@ static inline int start(int argc, char **argv,  bool registerParams=true)
         }
 
         // print the properties if requested
-        int printProps = Parameters::get<TypeTag, Properties::PrintProperties>();
+        int printProps = Parameters::get<Properties::PrintProperties>();
         if (printProps && myRank == 0) {
             if (printProps == 1 || !isatty(fileno(stdout)))
                 Properties::printValues<TypeTag>(std::cout);

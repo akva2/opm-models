@@ -43,11 +43,10 @@ struct VtkPhasePresence {};
 } // namespace TTag
 
 // create the property tags needed for the primary variables module
-template<class TypeTag, class MyTypeTag>
-struct VtkWritePhasePresence { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWritePhasePresence { using type = UndefinedProperty; };
 
-template<class TypeTag>
-struct VtkWritePhasePresence<TypeTag, TTag::VtkPhasePresence> { static constexpr bool value = false; };
+struct VtkWritePhasePresence { static constexpr bool value = false; };
 
 } // namespace Opm::Properties
 
@@ -83,7 +82,7 @@ public:
      */
     static void registerParameters()
     {
-        Parameters::registerParam<TypeTag, Properties::VtkWritePhasePresence>
+        Parameters::registerParam<Properties::VtkWritePhasePresence>
             ("Include the phase presence pseudo primary "
              "variable in the VTK output files");
     }
@@ -103,7 +102,7 @@ public:
      */
     void processElement(const ElementContext& elemCtx)
     {
-        if (!Parameters::get<TypeTag, Properties::EnableVtkOutput>())
+        if (!Parameters::get<Properties::EnableVtkOutput>())
             return;
 
         for (unsigned i = 0; i < elemCtx.numPrimaryDof(/*timeIdx=*/0); ++i) {
@@ -133,7 +132,7 @@ public:
 private:
     static bool phasePresenceOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWritePhasePresence>();
+        static bool val = Parameters::get<Properties::VtkWritePhasePresence>();
         return val;
     }
 

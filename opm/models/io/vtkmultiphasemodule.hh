@@ -51,56 +51,44 @@ struct VtkMultiPhase {};
 } // namespace TTag
 
 // create the property tags needed for the multi phase module
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteExtrusionFactor { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWritePressures { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteDensities { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteSaturations { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteMobilities { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteRelativePermeabilities { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteViscosities { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteAverageMolarMasses { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWritePorosity { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteIntrinsicPermeabilities { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWritePotentialGradients { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteFilterVelocities { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteExtrusionFactor { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWritePressures { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteDensities { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteSaturations { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteMobilities { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteRelativePermeabilities { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteViscosities { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteAverageMolarMasses { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWritePorosity { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteIntrinsicPermeabilities { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWritePotentialGradients { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteFilterVelocities { using type = UndefinedProperty; };
 
 // set default values for what quantities to output
-template<class TypeTag>
-struct VtkWriteExtrusionFactor<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWritePressures<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = true; };
-template<class TypeTag>
-struct VtkWriteDensities<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = true; };
-template<class TypeTag>
-struct VtkWriteSaturations<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = true; };
-template<class TypeTag>
-struct VtkWriteMobilities<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteRelativePermeabilities<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = true; };
-template<class TypeTag>
-struct VtkWriteViscosities<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteAverageMolarMasses<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWritePorosity<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = true; };
-template<class TypeTag>
-struct VtkWriteIntrinsicPermeabilities<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWritePotentialGradients<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteFilterVelocities<TypeTag, TTag::VtkMultiPhase> { static constexpr bool value = false; };
+struct VtkWriteExtrusionFactor { static constexpr bool value = false; };
+struct VtkWritePressures { static constexpr bool value = true; };
+struct VtkWriteDensities { static constexpr bool value = true; };
+struct VtkWriteSaturations { static constexpr bool value = true; };
+struct VtkWriteMobilities { static constexpr bool value = false; };
+struct VtkWriteRelativePermeabilities { static constexpr bool value = true; };
+struct VtkWriteViscosities { static constexpr bool value = false; };
+struct VtkWriteAverageMolarMasses { static constexpr bool value = false; };
+struct VtkWritePorosity { static constexpr bool value = true; };
+struct VtkWriteIntrinsicPermeabilities { static constexpr bool value = false; };
+struct VtkWritePotentialGradients { static constexpr bool value = false; };
+struct VtkWriteFilterVelocities { static constexpr bool value = false; };
 
 } // namespace Opm::Properties
 
@@ -162,29 +150,29 @@ public:
      */
     static void registerParameters()
     {
-        Parameters::registerParam<TypeTag, Properties::VtkWriteExtrusionFactor>
+        Parameters::registerParam<Properties::VtkWriteExtrusionFactor>
             ("Include the extrusion factor of the degrees of freedom into the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWritePressures>
+        Parameters::registerParam<Properties::VtkWritePressures>
             ("Include the phase pressures in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteDensities>
+        Parameters::registerParam<Properties::VtkWriteDensities>
             ("Include the phase densities in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteSaturations>
+        Parameters::registerParam<Properties::VtkWriteSaturations>
             ("Include the phase saturations in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteMobilities>
+        Parameters::registerParam<Properties::VtkWriteMobilities>
             ("Include the phase mobilities in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteRelativePermeabilities>
+        Parameters::registerParam<Properties::VtkWriteRelativePermeabilities>
             ("Include the phase relative permeabilities in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteViscosities>
+        Parameters::registerParam<Properties::VtkWriteViscosities>
             ("Include component phase viscosities in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteAverageMolarMasses>
+        Parameters::registerParam<Properties::VtkWriteAverageMolarMasses>
             ("Include the average phase mass in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWritePorosity>
+        Parameters::registerParam<Properties::VtkWritePorosity>
             ("Include the porosity in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteIntrinsicPermeabilities>
+        Parameters::registerParam<Properties::VtkWriteIntrinsicPermeabilities>
             ("Include the intrinsic permeability in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteFilterVelocities>
+        Parameters::registerParam<Properties::VtkWriteFilterVelocities>
             ("Include in the filter velocities of the phases the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWritePotentialGradients>
+        Parameters::registerParam<Properties::VtkWritePotentialGradients>
             ("Include the phase pressure potential gradients in the VTK output files");
     }
 
@@ -238,7 +226,7 @@ public:
      */
     void processElement(const ElementContext& elemCtx)
     {
-        if (!Parameters::get<TypeTag, Properties::EnableVtkOutput>())
+        if (!Parameters::get<Properties::EnableVtkOutput>())
             return;
 
         const auto& problem = elemCtx.problem();
@@ -418,73 +406,73 @@ public:
 private:
     static bool extrusionFactorOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteExtrusionFactor>();
+        static bool val = Parameters::get<Properties::VtkWriteExtrusionFactor>();
         return val;
     }
 
     static bool pressureOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWritePressures>();
+        static bool val = Parameters::get<Properties::VtkWritePressures>();
         return val;
     }
 
     static bool densityOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteDensities>();
+        static bool val = Parameters::get<Properties::VtkWriteDensities>();
         return val;
     }
 
     static bool saturationOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteSaturations>();
+        static bool val = Parameters::get<Properties::VtkWriteSaturations>();
         return val;
     }
 
     static bool mobilityOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteMobilities>();
+        static bool val = Parameters::get<Properties::VtkWriteMobilities>();
         return val;
     }
 
     static bool relativePermeabilityOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteRelativePermeabilities>();
+        static bool val = Parameters::get<Properties::VtkWriteRelativePermeabilities>();
         return val;
     }
 
     static bool viscosityOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteViscosities>();
+        static bool val = Parameters::get<Properties::VtkWriteViscosities>();
         return val;
     }
 
     static bool averageMolarMassOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteAverageMolarMasses>();
+        static bool val = Parameters::get<Properties::VtkWriteAverageMolarMasses>();
         return val;
     }
 
     static bool porosityOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWritePorosity>();
+        static bool val = Parameters::get<Properties::VtkWritePorosity>();
         return val;
     }
 
     static bool intrinsicPermeabilityOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteIntrinsicPermeabilities>();
+        static bool val = Parameters::get<Properties::VtkWriteIntrinsicPermeabilities>();
         return val;
     }
 
     static bool velocityOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteFilterVelocities>();
+        static bool val = Parameters::get<Properties::VtkWriteFilterVelocities>();
         return val;
     }
 
     static bool potentialGradientOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWritePotentialGradients>();
+        static bool val = Parameters::get<Properties::VtkWritePotentialGradients>();
         return val;
     }
 

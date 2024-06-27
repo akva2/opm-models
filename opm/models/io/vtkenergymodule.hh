@@ -30,6 +30,7 @@
 #include "vtkmultiwriter.hh"
 #include "baseoutputmodule.hh"
 
+#include <opm/models/discretization/common/fvbasediscretization.hh>
 #include <opm/models/utils/propertysystem.hh>
 #include <opm/models/utils/parametersystem.hh>
 
@@ -45,24 +46,20 @@ struct VtkEnergy {};
 } // namespace TTag
 
 // create the property tags needed for the energy module
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteSolidInternalEnergy { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteThermalConductivity { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteInternalEnergies { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteEnthalpies { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteSolidInternalEnergy { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteThermalConductivity { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteInternalEnergies { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteEnthalpies { using type = UndefinedProperty; };
 
 // set default values for what quantities to output
-template<class TypeTag>
-struct VtkWriteSolidInternalEnergy<TypeTag, TTag::VtkEnergy> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteThermalConductivity<TypeTag, TTag::VtkEnergy> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteInternalEnergies<TypeTag, TTag::VtkEnergy> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteEnthalpies<TypeTag, TTag::VtkEnergy> { static constexpr bool value = false; };
+struct VtkWriteSolidInternalEnergy { static constexpr bool value = false; };
+struct VtkWriteThermalConductivity { static constexpr bool value = false; };
+struct VtkWriteInternalEnergies { static constexpr bool value = false; };
+struct VtkWriteEnthalpies { static constexpr bool value = false; };
 
 } // namespace Opm::Properties
 
@@ -111,16 +108,16 @@ public:
      */
     static void registerParameters()
     {
-        Parameters::registerParam<TypeTag, Properties::VtkWriteSolidInternalEnergy>
+        Parameters::registerParam<Properties::VtkWriteSolidInternalEnergy>
             ("Include the volumetric internal energy of solid"
              "matrix in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteThermalConductivity>
+        Parameters::registerParam<Properties::VtkWriteThermalConductivity>
             ("Include the total thermal conductivity of the"
              "medium in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteEnthalpies>
+        Parameters::registerParam<Properties::VtkWriteEnthalpies>
             ("Include the specific enthalpy of the phases in "
              "the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteInternalEnergies>
+        Parameters::registerParam<Properties::VtkWriteInternalEnergies>
             ("Include the specific internal energy of the "
              "phases in the VTK output files");
     }
@@ -148,7 +145,7 @@ public:
      */
     void processElement(const ElementContext& elemCtx)
     {
-        if (!Parameters::get<TypeTag, Properties::EnableVtkOutput>())
+        if (!Parameters::get<Properties::EnableVtkOutput>())
             return;
 
         for (unsigned i = 0; i < elemCtx.numPrimaryDof(/*timeIdx=*/0); ++i) {
@@ -194,25 +191,25 @@ public:
 private:
     static bool solidInternalEnergyOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteSolidInternalEnergy>();
+        static bool val = Parameters::get<Properties::VtkWriteSolidInternalEnergy>();
         return val;
     }
 
     static bool thermalConductivityOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteThermalConductivity>();
+        static bool val = Parameters::get<Properties::VtkWriteThermalConductivity>();
         return val;
     }
 
     static bool enthalpyOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteEnthalpies>();
+        static bool val = Parameters::get<Properties::VtkWriteEnthalpies>();
         return val;
     }
 
     static bool internalEnergyOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteInternalEnergies>();
+        static bool val = Parameters::get<Properties::VtkWriteInternalEnergies>();
         return val;
     }
 

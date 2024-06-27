@@ -45,12 +45,11 @@ struct VtkTemperature {};
 } // namespace TTag
 
 // create the property tags needed for the temperature module
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteTemperature { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteTemperature { using type = UndefinedProperty; };
 
 // set default values for what quantities to output
-template<class TypeTag>
-struct VtkWriteTemperature<TypeTag, TTag::VtkTemperature> { static constexpr bool value = true; };
+struct VtkWriteTemperature { static constexpr bool value = true; };
 
 } // namespace Opm::Properties
 
@@ -88,7 +87,7 @@ public:
      */
     static void registerParameters()
     {
-        Parameters::registerParam<TypeTag, Properties::VtkWriteTemperature>
+        Parameters::registerParam<Properties::VtkWriteTemperature>
             ("Include the temperature in the VTK output files");
     }
 
@@ -109,7 +108,7 @@ public:
     {
         using Toolbox = MathToolbox<Evaluation>;
 
-        if (!Parameters::get<TypeTag, Properties::EnableVtkOutput>())
+        if (!Parameters::get<Properties::EnableVtkOutput>())
             return;
 
         for (unsigned i = 0; i < elemCtx.numPrimaryDof(/*timeIdx=*/0); ++i) {
@@ -139,7 +138,7 @@ public:
 private:
     static bool temperatureOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteTemperature>();
+        static bool val = Parameters::get<Properties::VtkWriteTemperature>();
         return val;
     }
 

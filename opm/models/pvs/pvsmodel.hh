@@ -110,8 +110,7 @@ template<class TypeTag>
 struct Indices<TypeTag, TTag::PvsModel> { using type = Opm::PvsIndices<TypeTag, /*PVIdx=*/0>; };
 
 // set the model to a medium verbosity
-template<class TypeTag>
-struct PvsVerbosity<TypeTag, TTag::PvsModel> { static constexpr int value = 1; };
+struct PvsVerbosity { static constexpr int value = 1; };
 
 //! Disable the energy equation by default
 template<class TypeTag>
@@ -122,26 +121,23 @@ template<class TypeTag>
 struct EnableDiffusion<TypeTag, TTag::PvsModel> { static constexpr bool value = false; };
 
 //! The basis value for the weight of the pressure primary variable
-template<class TypeTag>
-struct PvsPressureBaseWeight<TypeTag, TTag::PvsModel>
+struct PvsPressureBaseWeight
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 1.0;
 };
 
 //! The basis value for the weight of the saturation primary variables
-template<class TypeTag>
-struct PvsSaturationsBaseWeight<TypeTag, TTag::PvsModel>
+struct PvsSaturationsBaseWeight
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 1.0;
 };
 
 //! The basis value for the weight of the mole fraction primary variables
-template<class TypeTag>
-struct PvsMoleFractionsBaseWeight<TypeTag, TTag::PvsModel>
+struct PvsMoleFractionsBaseWeight
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 1.0;
 };
 
@@ -275,7 +271,7 @@ public:
     PvsModel(Simulator& simulator)
         : ParentType(simulator)
     {
-        verbosity_ = Parameters::get<TypeTag, Properties::PvsVerbosity>();
+        verbosity_ = Parameters::get<Properties::PvsVerbosity>();
         numSwitched_ = 0;
     }
 
@@ -296,7 +292,7 @@ public:
         if (enableEnergy)
             Opm::VtkEnergyModule<TypeTag>::registerParameters();
 
-        Parameters::registerParam<TypeTag, Properties::PvsVerbosity>
+        Parameters::registerParam<Properties::PvsVerbosity>
             ("The verbosity level of the primary variable "
              "switching model");
     }
@@ -406,12 +402,12 @@ public:
 
             // for saturations, the PvsMoleSaturationsBaseWeight
             // property determines the weight
-            return getPropValue<TypeTag, Properties::PvsSaturationsBaseWeight>();
+            return Parameters::get<Properties::PvsSaturationsBaseWeight>();
         }
 
         // for mole fractions, the PvsMoleFractionsBaseWeight
         // property determines the weight
-        return getPropValue<TypeTag, Properties::PvsMoleFractionsBaseWeight>();
+        return Parameters::get<Properties::PvsMoleFractionsBaseWeight>();
     }
 
     /*!

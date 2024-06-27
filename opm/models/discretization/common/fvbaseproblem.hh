@@ -29,6 +29,7 @@
 #define EWOMS_FV_BASE_PROBLEM_HH
 
 #include "fvbaseproperties.hh"
+#include "opm/models/discretization/common/fvbasediscretization.hh"
 
 #include <opm/models/io/vtkmultiwriter.hh>
 #include <opm/models/io/restart.hh>
@@ -141,12 +142,12 @@ public:
         if (enableVtkOutput_()) {
             bool asyncVtkOutput =
                 simulator_.gridView().comm().size() == 1 &&
-                Parameters::get<TypeTag, Properties::EnableAsyncVtkOutput>();
+                Parameters::get<Properties::EnableAsyncVtkOutput>();
 
             // asynchonous VTK output currently does not work in conjunction with grid
             // adaptivity because the async-IO code assumes that the grid stays
             // constant. complain about that case.
-            bool enableGridAdaptation = Parameters::get<TypeTag, Properties::EnableGridAdaptation>();
+            bool enableGridAdaptation = Parameters::get<Properties::EnableGridAdaptation>();
             if (asyncVtkOutput && enableGridAdaptation)
                 throw std::runtime_error("Asynchronous VTK output currently cannot be used "
                                          "at the same time as grid adaptivity");
@@ -168,16 +169,16 @@ public:
     static void registerParameters()
     {
         Model::registerParameters();
-        Parameters::registerParam<TypeTag, Properties::MaxTimeStepSize>
+        Parameters::registerParam<Properties::MaxTimeStepSize>
             ("The maximum size to which all time steps are limited to [s]");
-        Parameters::registerParam<TypeTag, Properties::MinTimeStepSize>
+        Parameters::registerParam<Properties::MinTimeStepSize>
             ("The minimum size to which all time steps are limited to [s]");
-        Parameters::registerParam<TypeTag, Properties::MaxTimeStepDivisions>
+        Parameters::registerParam<Properties::MaxTimeStepDivisions>
             ("The maximum number of divisions by two of the timestep size "
              "before the simulation bails out");
-        Parameters::registerParam<TypeTag, Properties::EnableAsyncVtkOutput>
+        Parameters::registerParam<Properties::EnableAsyncVtkOutput>
             ("Dispatch a separate thread to write the VTK output");
-        Parameters::registerParam<TypeTag, Properties::ContinueOnConvergenceError>
+        Parameters::registerParam<Properties::ContinueOnConvergenceError>
             ("Continue with a non-converged solution instead of giving up "
              "if we encounter a time step size smaller than the minimum time "
              "step size.");
@@ -203,7 +204,7 @@ public:
      */
     std::string outputDir() const
     {
-        std::string outputDir = Parameters::get<TypeTag, Properties::OutputDir>();
+        std::string outputDir = Parameters::get<Properties::OutputDir>();
 
         if (outputDir.empty())
             outputDir = ".";
@@ -559,14 +560,14 @@ public:
      * \brief Returns the minimum allowable size of a time step.
      */
     Scalar minTimeStepSize() const
-    { return Parameters::get<TypeTag, Properties::MinTimeStepSize>(); }
+    { return Parameters::get<Properties::MinTimeStepSize>(); }
 
     /*!
      * \brief Returns the maximum number of subsequent failures for the time integration
      *        before giving up.
      */
     unsigned maxTimeIntegrationFailures() const
-    { return Parameters::get<TypeTag, Properties::MaxTimeStepDivisions>(); }
+    { return Parameters::get<Properties::MaxTimeStepDivisions>(); }
 
     /*!
      * \brief Returns if we should continue with a non-converged solution instead of
@@ -574,7 +575,7 @@ public:
      *        step size.
      */
     bool continueOnConvergenceError() const
-    { return Parameters::get<TypeTag, Properties::ContinueOnConvergenceError>(); }
+    { return Parameters::get<Properties::ContinueOnConvergenceError>(); }
 
     /*!
      * \brief Impose the next time step size to be used externally.
@@ -592,7 +593,7 @@ public:
         if (nextTimeStepSize_ > 0.0)
             return nextTimeStepSize_;
 
-        Scalar dtNext = std::min(Parameters::get<TypeTag, Properties::MaxTimeStepSize>(),
+        Scalar dtNext = std::min(Parameters::get<Properties::MaxTimeStepSize>(),
                                  newtonMethod().suggestTimeStepSize(simulator().timeStepSize()));
 
         if (dtNext < simulator().maxTimeStepSize()
@@ -811,7 +812,7 @@ protected:
 
 private:
     bool enableVtkOutput_() const
-    { return Parameters::get<TypeTag, Properties::EnableVtkOutput>(); }
+    { return Parameters::get<Properties::EnableVtkOutput>(); }
 
     //! Returns the implementation of the problem (i.e. static polymorphism)
     Implementation& asImp_()

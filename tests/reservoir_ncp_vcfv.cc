@@ -48,8 +48,8 @@ struct SpatialDiscretizationSplice<TypeTag, TTag::ReservoirNcpVcfvProblem> { usi
 
 // enable the storage cache for this problem so that the storage cache receives wider
 // testing
-template<class TypeTag>
-struct EnableStorageCache<TypeTag, TTag::ReservoirNcpVcfvProblem> { static constexpr bool value = true; };
+// template<class TypeTag>
+// struct EnableStorageCache<TypeTag, TTag::ReservoirNcpVcfvProblem> { static constexpr bool value = true; };
 
 // reduce the base epsilon for the finite difference method to 10^-11. for some reason
 // the simulator converges better with this. (TODO: use automatic differentiation?)

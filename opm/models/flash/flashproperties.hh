@@ -41,8 +41,11 @@ namespace Opm::Properties {
 template<class TypeTag, class MyTypeTag>
 struct FlashSolver { using type = UndefinedProperty; };
 //! The maximum accepted error of the flash solver
-template<class TypeTag, class MyTypeTag>
-struct FlashTolerance { using type = UndefinedProperty; };
+struct FlashTolerance
+{
+    using type = double;//GetPropType<TypeTag, Scalar>;
+    static constexpr type value = -1.0;
+};
 
 } // namespace Opm::Properties
 

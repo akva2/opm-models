@@ -157,8 +157,8 @@ struct PreconditionerWrapper<TypeTag, TTag::ParallelIstlLinearSolver>
 { using type = Opm::Linear::PreconditionerWrapperILU<TypeTag>; };
 
 //! set the GMRes restart parameter to 10 by default
-template<class TypeTag>
-struct GMResRestart<TypeTag, TTag::ParallelIstlLinearSolver> { static constexpr int value = 10; };
+// template<class TypeTag>
+// struct GMResRestart<TypeTag, TTag::ParallelIstlLinearSolver> { static constexpr int value = 10; };
 
 } // namespace Opm::Properties
 

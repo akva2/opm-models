@@ -36,8 +36,8 @@ template<class TypeTag, class MyTypeTag>
 struct Linearizer { using type = UndefinedProperty; };
 
 //! Specifies whether the Newton method should print messages or not
-template<class TypeTag, class MyTypeTag>
-struct NewtonVerbose { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct NewtonVerbose { using type = UndefinedProperty; };
 
 //! Specifies the type of the class which writes out the Newton convergence
 template<class TypeTag, class MyTypeTag>
@@ -45,8 +45,8 @@ struct NewtonConvergenceWriter { using type = UndefinedProperty; };
 
 //! Specifies whether the convergence rate and the global residual
 //! gets written out to disk for every Newton iteration
-template<class TypeTag, class MyTypeTag>
-struct NewtonWriteConvergence { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct NewtonWriteConvergence { using type = UndefinedProperty; };
 
 //! Specifies whether the convergence rate and the global residual
 //! gets written out to disk for every Newton iteration
@@ -59,13 +59,13 @@ struct ConvergenceWriter { using type = UndefinedProperty; };
  * This value can (and for the porous media models will) be changed to account for grid
  * scaling and other effects.
  */
-template<class TypeTag, class MyTypeTag>
-struct NewtonTolerance { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct NewtonTolerance { using type = UndefinedProperty; };
 
 //! The maximum error which may occur in a simulation before the
 //! Newton method for the time step is aborted
-template<class TypeTag, class MyTypeTag>
-struct NewtonMaxError { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct NewtonMaxError { using type = UndefinedProperty; };
 
 /*!
  * \brief The number of iterations at which the Newton method
@@ -75,12 +75,12 @@ struct NewtonMaxError { using type = UndefinedProperty; };
  * is to scale the last time-step size by the deviation of the
  * number of iterations used from the target steps.
  */
-template<class TypeTag, class MyTypeTag>
-struct NewtonTargetIterations { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct NewtonTargetIterations { using type = UndefinedProperty; };
 
 //! Number of maximum iterations for the Newton method.
-template<class TypeTag, class MyTypeTag>
-struct NewtonMaxIterations { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct NewtonMaxIterations { using type = UndefinedProperty; };
 
 } // end namespace  Opm::Properties
 

@@ -71,16 +71,16 @@ struct FluidSystem<TypeTag, TTag::InfiltrationBaseProblem>
 { using type = Opm::H2OAirMesityleneFluidSystem<GetPropType<TypeTag, Properties::Scalar>>; };
 
 // Enable gravity?
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::InfiltrationBaseProblem> { static constexpr bool value = true; };
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::InfiltrationBaseProblem> { static constexpr bool value = true; };
 
 // Write newton convergence?
-template<class TypeTag>
-struct NewtonWriteConvergence<TypeTag, TTag::InfiltrationBaseProblem> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct NewtonWriteConvergence<TypeTag, TTag::InfiltrationBaseProblem> { static constexpr bool value = false; };
 
 // -1 backward differences, 0: central differences, +1: forward differences
-template<class TypeTag>
-struct NumericDifferenceMethod<TypeTag, TTag::InfiltrationBaseProblem> { static constexpr int value = 1; };
+// template<class TypeTag>
+// struct NumericDifferenceMethod<TypeTag, TTag::InfiltrationBaseProblem> { static constexpr int value = 1; };
 
 // Set the material Law
 template<class TypeTag>
@@ -101,25 +101,25 @@ public:
 };
 
 // The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::InfiltrationBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 6e3;
-};
+// template<class TypeTag>
+// struct EndTime<TypeTag, TTag::InfiltrationBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 6e3;
+// };
 
 // The default for the initial time step size of the simulation
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::InfiltrationBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 60;
-};
+// template<class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::InfiltrationBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 60;
+// };
 
 // The default DGF file to load
-template<class TypeTag>
-struct GridFile<TypeTag, TTag::InfiltrationBaseProblem>
-{ static constexpr auto value = "./data/infiltration_50x3.dgf"; };
+// template<class TypeTag>
+// struct GridFile<TypeTag, TTag::InfiltrationBaseProblem>
+// { static constexpr auto value = "./data/infiltration_50x3.dgf"; };
 
 } // namespace Opm::Properties
 

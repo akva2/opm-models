@@ -56,13 +56,11 @@ struct ParallelAmgLinearSolver { using InheritsFrom = std::tuple<ParallelBaseLin
 
 //! The target number of DOFs per processor for the parallel algebraic
 //! multi-grid solver
-template<class TypeTag>
-struct AmgCoarsenTarget<TypeTag, TTag::ParallelAmgLinearSolver> { static constexpr int value = 5000; };
+struct AmgCoarsenTarget{ static constexpr int value = 5000; };
 
-template<class TypeTag>
-struct LinearSolverMaxError<TypeTag, TTag::ParallelAmgLinearSolver>
+struct LinearSolverMaxError
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 1e7;
 };
 
@@ -150,10 +148,10 @@ public:
     {
         ParentType::registerParameters();
 
-        Parameters::registerParam<TypeTag, Properties::LinearSolverMaxError>
+        Parameters::registerParam<Properties::LinearSolverMaxError>
             ("The maximum residual error which the linear solver tolerates "
              "without giving up");
-        Parameters::registerParam<TypeTag, Properties::AmgCoarsenTarget>
+        Parameters::registerParam<Properties::AmgCoarsenTarget>
             ("The coarsening target for the agglomerations of "
              "the AMG preconditioner");
     }
@@ -193,24 +191,24 @@ protected:
         const auto& gridView = this->simulator_.gridView();
         using CCC = CombinedCriterion<OverlappingVector, decltype(gridView.comm())>;
 
-        Scalar linearSolverTolerance = Parameters::get<TypeTag, Properties::LinearSolverTolerance>();
-        Scalar linearSolverAbsTolerance = Parameters::get<TypeTag, Properties::LinearSolverAbsTolerance>();
+        Scalar linearSolverTolerance = Parameters::get<Properties::LinearSolverTolerance>();
+        Scalar linearSolverAbsTolerance = Parameters::get<Properties::LinearSolverAbsTolerance>();
         if(linearSolverAbsTolerance < 0.0)
             linearSolverAbsTolerance = this->simulator_.model().newtonMethod().tolerance()/100.0;
 
         convCrit_.reset(new CCC(gridView.comm(),
                                 /*residualReductionTolerance=*/linearSolverTolerance,
                                 /*absoluteResidualTolerance=*/linearSolverAbsTolerance,
-                                Parameters::get<TypeTag, Properties::LinearSolverMaxError>()));
+                                Parameters::get<Properties::LinearSolverMaxError>()));
 
         auto bicgstabSolver =
             std::make_shared<RawLinearSolver>(parPreCond, *convCrit_, parScalarProduct);
 
         int verbosity = 0;
         if (parOperator.overlap().myRank() == 0)
-            verbosity = Parameters::get<TypeTag, Properties::LinearSolverVerbosity>();
+            verbosity = Parameters::get<Properties::LinearSolverVerbosity>();
         bicgstabSolver->setVerbosity(verbosity);
-        bicgstabSolver->setMaxIterations(Parameters::get<TypeTag, Properties::LinearSolverMaxIterations>());
+        bicgstabSolver->setMaxIterations(Parameters::get<Properties::LinearSolverMaxIterations>());
         bicgstabSolver->setLinearOperator(&parOperator);
         bicgstabSolver->setRhs(this->overlappingb_);
 
@@ -274,7 +272,7 @@ protected:
 
         int verbosity = 0;
         if (this->simulator_.vanguard().gridView().comm().rank() == 0)
-            verbosity = Parameters::get<TypeTag, Properties::LinearSolverVerbosity>();
+            verbosity = Parameters::get<Properties::LinearSolverVerbosity>();
 
         using SmootherArgs = typename Dune::Amg::SmootherTraits<ParallelSmoother>::Arguments;
 
@@ -289,7 +287,7 @@ protected:
         //                             Dune::Amg::FirstDiagonal>>
         using CoarsenCriterion = Dune::Amg::
             CoarsenCriterion<Dune::Amg::SymmetricCriterion<IstlMatrix, Dune::Amg::FrobeniusNorm> >;
-        int coarsenTarget = Parameters::get<TypeTag, Properties::AmgCoarsenTarget>();
+        int coarsenTarget = Parameters::get<Properties::AmgCoarsenTarget>();
         CoarsenCriterion coarsenCriterion(/*maxLevel=*/15, coarsenTarget);
         coarsenCriterion.setDefaultValuesAnisotropic(GridView::dimension,
                                                      /*aggregateSizePerDim=*/3);

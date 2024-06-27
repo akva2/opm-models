@@ -58,8 +58,8 @@ namespace TTag {
 struct FiniteDifferenceLocalLinearizer {};
 } // namespace TTag
 
-template<class TypeTag, class MyTypeTag>
-struct NumericDifferenceMethod { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct NumericDifferenceMethod { using type = UndefinedProperty; };
 template<class TypeTag, class MyTypeTag>
 struct BaseEpsilon { using type = UndefinedProperty; };
 
@@ -79,8 +79,7 @@ struct Evaluation<TypeTag, TTag::FiniteDifferenceLocalLinearizer>
  * -1 means backward differences, 0 means central differences, 1 means
  * forward differences. By default we use central differences.
  */
-template<class TypeTag>
-struct NumericDifferenceMethod<TypeTag, TTag::FiniteDifferenceLocalLinearizer> { static constexpr int value = +1; };
+struct NumericDifferenceMethod { static constexpr int value = +1; };
 
 //! The base epsilon value for finite difference calculations
 template<class TypeTag>
@@ -182,7 +181,7 @@ public:
      */
     static void registerParameters()
     {
-        Parameters::registerParam<TypeTag, Properties::NumericDifferenceMethod>
+        Parameters::registerParam<Properties::NumericDifferenceMethod>
             ("The method used for numeric differentiation (-1: backward "
              "differences, 0: central differences, 1: forward differences)");
     }
@@ -335,7 +334,7 @@ protected:
      * \brief Returns the numeric difference method which is applied.
      */
     static int numericDifferenceMethod_()
-    { return Parameters::get<TypeTag, Properties::NumericDifferenceMethod>(); }
+    { return Parameters::get<Properties::NumericDifferenceMethod>(); }
 
     /*!
      * \brief Resize all internal attributes to the size of the

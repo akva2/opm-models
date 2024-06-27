@@ -80,8 +80,8 @@ struct Grid<TypeTag, TTag::FingerBaseProblem>
 #endif
 
 // declare the properties used by the finger problem
-template<class TypeTag, class MyTypeTag>
-struct InitialWaterSaturation { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct InitialWaterSaturation { using type = UndefinedProperty; };
 
 // Set the problem property
 template<class TypeTag>
@@ -125,70 +125,69 @@ struct MaterialLaw<TypeTag, TTag::FingerBaseProblem>
 };
 
 // Write the solutions of individual newton iterations?
-template<class TypeTag>
-struct NewtonWriteConvergence<TypeTag, TTag::FingerBaseProblem> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct NewtonWriteConvergence<TypeTag, TTag::FingerBaseProblem> { static constexpr bool value = false; };
 
 // Use forward differences instead of central differences
-template<class TypeTag>
-struct NumericDifferenceMethod<TypeTag, TTag::FingerBaseProblem> { static constexpr int value = +1; };
+// template<class TypeTag>
+// struct NumericDifferenceMethod<TypeTag, TTag::FingerBaseProblem> { static constexpr int value = +1; };
 
 // Enable constraints
 template<class TypeTag>
 struct EnableConstraints<TypeTag, TTag::FingerBaseProblem> { static constexpr int value = true; };
 
 // Enable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::FingerBaseProblem> { static constexpr bool value = true; };
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::FingerBaseProblem> { static constexpr bool value = true; };
 
 // define the properties specific for the finger problem
-template<class TypeTag>
-struct DomainSizeX<TypeTag, TTag::FingerBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 0.1;
-};
-template<class TypeTag>
-struct DomainSizeY<TypeTag, TTag::FingerBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 0.3;
-};
-template<class TypeTag>
-struct DomainSizeZ<TypeTag, TTag::FingerBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 0.1;
-};
+// template<class TypeTag>
+// struct DomainSizeX<TypeTag, TTag::FingerBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 0.1;
+// };
+// template<class TypeTag>
+// struct DomainSizeY<TypeTag, TTag::FingerBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 0.3;
+// };
+// template<class TypeTag>
+// struct DomainSizeZ<TypeTag, TTag::FingerBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 0.1;
+// };
 
-template<class TypeTag>
-struct InitialWaterSaturation<TypeTag, TTag::FingerBaseProblem>
+struct InitialWaterSaturation
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 0.01;
 };
 
-template<class TypeTag>
-struct CellsX<TypeTag, TTag::FingerBaseProblem> { static constexpr unsigned value = 20; };
-template<class TypeTag>
-struct CellsY<TypeTag, TTag::FingerBaseProblem> { static constexpr unsigned value = 70; };
-template<class TypeTag>
-struct CellsZ<TypeTag, TTag::FingerBaseProblem> { static constexpr unsigned value = 1; };
+// template<class TypeTag>
+// struct CellsX<TypeTag, TTag::FingerBaseProblem> { static constexpr unsigned value = 20; };
+// template<class TypeTag>
+// struct CellsY<TypeTag, TTag::FingerBaseProblem> { static constexpr unsigned value = 70; };
+// template<class TypeTag>
+// struct CellsZ<TypeTag, TTag::FingerBaseProblem> { static constexpr unsigned value = 1; };
 
 // The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::FingerBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 215;
-};
+// template<class TypeTag>
+// struct EndTime<TypeTag, TTag::FingerBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 215;
+// };
 
 // The default for the initial time step size of the simulation
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::FingerBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 10;
-};
+// template<class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::FingerBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 10;
+// };
 
 } // namespace Opm::Properties
 
@@ -305,7 +304,7 @@ public:
     {
         ParentType::registerParameters();
 
-        Parameters::registerParam<TypeTag, Properties::InitialWaterSaturation>
+        Parameters::registerParam<Properties::InitialWaterSaturation>
             ("The initial saturation in the domain [] of the wetting phase");
     }
 
@@ -558,7 +557,7 @@ private:
         auto& fs = initialFluidState_;
         fs.setPressure(wettingPhaseIdx, /*pressure=*/1e5);
 
-        Scalar Sw = Parameters::get<TypeTag, Properties::InitialWaterSaturation>();
+        Scalar Sw = Parameters::get<Properties::InitialWaterSaturation>();
         fs.setSaturation(wettingPhaseIdx, Sw);
         fs.setSaturation(nonWettingPhaseIdx, 1 - Sw);
 

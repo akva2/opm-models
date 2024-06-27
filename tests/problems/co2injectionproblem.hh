@@ -71,25 +71,25 @@ struct Co2InjectionBaseProblem {};
 }
 
 // declare the CO2 injection problem specific property tags
-template<class TypeTag, class MyTypeTag>
-struct FluidSystemPressureLow { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct FluidSystemPressureHigh { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct FluidSystemNumPressure { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct FluidSystemTemperatureLow { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct FluidSystemTemperatureHigh { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct FluidSystemNumTemperature { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct FluidSystemPressureLow { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct FluidSystemPressureHigh { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct FluidSystemNumPressure { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct FluidSystemTemperatureLow { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct FluidSystemTemperatureHigh { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct FluidSystemNumTemperature { using type = UndefinedProperty; };
 
-template<class TypeTag, class MyTypeTag>
-struct MaxDepth { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct Temperature { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct SimulationName { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct MaxDepth { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct Temperature { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct SimulationName { using type = UndefinedProperty; };
 
 // Set the grid type
 template<class TypeTag>
@@ -158,77 +158,68 @@ template<class TypeTag>
 struct LinearSolverSplice<TypeTag, TTag::Co2InjectionBaseProblem> { using type = TTag::ParallelAmgLinearSolver; };
 
 // Write the Newton convergence behavior to disk?
-template<class TypeTag>
-struct NewtonWriteConvergence<TypeTag, TTag::Co2InjectionBaseProblem> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct NewtonWriteConvergence<TypeTag, TTag::Co2InjectionBaseProblem> { static constexpr bool value = false; };
 
 // Enable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::Co2InjectionBaseProblem> { static constexpr bool value = true; };
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::Co2InjectionBaseProblem> { static constexpr bool value = true; };
 
 // set the defaults for the problem specific properties
-template<class TypeTag>
-struct FluidSystemPressureLow<TypeTag, TTag::Co2InjectionBaseProblem>
+struct FluidSystemPressureLow
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 3e7;
 };
-template<class TypeTag>
-struct FluidSystemPressureHigh<TypeTag, TTag::Co2InjectionBaseProblem>
+struct FluidSystemPressureHigh
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 4e7;
 };
-template<class TypeTag>
-struct FluidSystemNumPressure<TypeTag, TTag::Co2InjectionBaseProblem> { static constexpr unsigned value = 100; };
-template<class TypeTag>
-struct FluidSystemTemperatureLow<TypeTag, TTag::Co2InjectionBaseProblem>
+struct FluidSystemNumPressure { static constexpr unsigned value = 100; };
+struct FluidSystemTemperatureLow
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 290;
 };
-template<class TypeTag>
-struct FluidSystemTemperatureHigh<TypeTag, TTag::Co2InjectionBaseProblem>
+struct FluidSystemTemperatureHigh
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 500;
 };
-template<class TypeTag>
-struct FluidSystemNumTemperature<TypeTag, TTag::Co2InjectionBaseProblem> { static constexpr unsigned value = 100; };
+struct FluidSystemNumTemperature { static constexpr unsigned value = 100; };
 
-template<class TypeTag>
-struct MaxDepth<TypeTag, TTag::Co2InjectionBaseProblem>
+struct MaxDepth
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 2500;
 };
-template<class TypeTag>
-struct Temperature<TypeTag, TTag::Co2InjectionBaseProblem>
+
+struct Temperature
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 293.15;
 };
-template<class TypeTag>
-struct SimulationName<TypeTag, TTag::Co2InjectionBaseProblem> { static constexpr auto value = "co2injection"; };
+struct SimulationName { static constexpr auto value = "co2injection"; };
 
 // The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::Co2InjectionBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1e4;
-};
+// struct EndTime
+// {
+//     using type = double;//GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1e4;
+// };
 
 // The default for the initial time step size of the simulation
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::Co2InjectionBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 250;
-};
+// template<class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::Co2InjectionBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 250;
+// };
 
 // The default DGF file to load
-template<class TypeTag>
-struct GridFile<TypeTag, TTag::Co2InjectionBaseProblem> { static constexpr auto value = "data/co2injection.dgf"; };
+// template<class TypeTag>
+// struct GridFile<TypeTag, TTag::Co2InjectionBaseProblem> { static constexpr auto value = "data/co2injection.dgf"; };
 
 } // namespace Opm::Properties
 
@@ -311,16 +302,16 @@ public:
 
         eps_ = 1e-6;
 
-        temperatureLow_ = Parameters::get<TypeTag, Properties::FluidSystemTemperatureLow>();
-        temperatureHigh_ = Parameters::get<TypeTag, Properties::FluidSystemTemperatureHigh>();
-        nTemperature_ = Parameters::get<TypeTag, Properties::FluidSystemNumTemperature>();
+        temperatureLow_ = Parameters::get<Properties::FluidSystemTemperatureLow>();
+        temperatureHigh_ = Parameters::get<Properties::FluidSystemTemperatureHigh>();
+        nTemperature_ = Parameters::get<Properties::FluidSystemNumTemperature>();
 
-        pressureLow_ = Parameters::get<TypeTag, Properties::FluidSystemPressureLow>();
-        pressureHigh_ = Parameters::get<TypeTag, Properties::FluidSystemPressureHigh>();
-        nPressure_ = Parameters::get<TypeTag, Properties::FluidSystemNumPressure>();
+        pressureLow_ = Parameters::get<Properties::FluidSystemPressureLow>();
+        pressureHigh_ = Parameters::get<Properties::FluidSystemPressureHigh>();
+        nPressure_ = Parameters::get<Properties::FluidSystemNumPressure>();
 
-        maxDepth_ = Parameters::get<TypeTag, Properties::MaxDepth>();
-        temperature_ = Parameters::get<TypeTag, Properties::Temperature>();
+        maxDepth_ = Parameters::get<Properties::MaxDepth>();
+        temperature_ = Parameters::get<Properties::Temperature>();
 
         // initialize the tables of the fluid system
         // FluidSystem::init();
@@ -373,23 +364,23 @@ public:
     {
         ParentType::registerParameters();
 
-        Parameters::registerParam<TypeTag, Properties::FluidSystemTemperatureLow>
+        Parameters::registerParam<Properties::FluidSystemTemperatureLow>
             ("The lower temperature [K] for tabulation of the fluid system");
-        Parameters::registerParam<TypeTag, Properties::FluidSystemTemperatureHigh>
+        Parameters::registerParam<Properties::FluidSystemTemperatureHigh>
             ("The upper temperature [K] for tabulation of the fluid system");
-        Parameters::registerParam<TypeTag, Properties::FluidSystemNumTemperature>
+        Parameters::registerParam<Properties::FluidSystemNumTemperature>
             ("The number of intervals between the lower and upper temperature");
-        Parameters::registerParam<TypeTag, Properties::FluidSystemPressureLow>
+        Parameters::registerParam<Properties::FluidSystemPressureLow>
             ("The lower pressure [Pa] for tabulation of the fluid system");
-        Parameters::registerParam<TypeTag, Properties::FluidSystemPressureHigh>
+        Parameters::registerParam<Properties::FluidSystemPressureHigh>
             ("The upper pressure [Pa] for tabulation of the fluid system");
-        Parameters::registerParam<TypeTag, Properties::FluidSystemNumPressure>
+        Parameters::registerParam<Properties::FluidSystemNumPressure>
             ("The number of intervals between the lower and upper pressure");
-        Parameters::registerParam<TypeTag, Properties::Temperature>
+        Parameters::registerParam<Properties::Temperature>
             ("The temperature [K] in the reservoir");
-        Parameters::registerParam<TypeTag, Properties::MaxDepth>
+        Parameters::registerParam<Properties::MaxDepth>
             ("The maximum depth [m] of the reservoir");
-        Parameters::registerParam<TypeTag, Properties::SimulationName>
+        Parameters::registerParam<Properties::SimulationName>
             ("The name of the simulation used for the output files");
     }
 
@@ -404,7 +395,7 @@ public:
     std::string name() const
     {
         std::ostringstream oss;
-        oss << Parameters::get<TypeTag, Properties::SimulationName>()
+        oss << Parameters::get<Properties::SimulationName>()
             << "_" << Model::name();
         if (getPropValue<TypeTag, Properties::EnableEnergy>())
             oss << "_ni";

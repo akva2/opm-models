@@ -135,8 +135,8 @@ struct ThermalConductionLawParams<TypeTag, TTag::MultiPhaseBaseModel>
 { using type = typename GetPropType<TypeTag, Properties::ThermalConductionLaw>::Params; };
 
 //! disable gravity by default
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::MultiPhaseBaseModel> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::MultiPhaseBaseModel> { static constexpr bool value = false; };
 
 
 } // namespace Opm::Properties

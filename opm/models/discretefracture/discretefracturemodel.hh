@@ -98,8 +98,8 @@ struct UseTwoPointGradients<TypeTag, TTag::DiscreteFractureModel> { static const
 // intensive quantities of the other intensive quantities of the same of the same degree
 // of freedom. This is because the fracture properties (volume, permeability, etc) are
 // specific for each...
-template<class TypeTag>
-struct EnableIntensiveQuantityCache<TypeTag, TTag::DiscreteFractureModel> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct EnableIntensiveQuantityCache<TypeTag, TTag::DiscreteFractureModel> { static constexpr bool value = false; };
 
 } // namespace Opm::Properties
 
@@ -132,7 +132,7 @@ public:
     DiscreteFractureModel(Simulator& simulator)
         : ParentType(simulator)
     {
-        if (Parameters::get<TypeTag, Properties::EnableIntensiveQuantityCache>()) {
+        if (Parameters::get<Properties::EnableIntensiveQuantityCache>()) {
             throw std::runtime_error("The discrete fracture model does not work in conjunction "
                                      "with intensive quantities caching");
         }

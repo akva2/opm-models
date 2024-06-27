@@ -121,52 +121,52 @@ public:
 };
 
 // Disable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::Tutorial1Problem> { static constexpr bool value = false; }; /*@\label{tutorial1:gravity}@*/
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::Tutorial1Problem> { static constexpr bool value = false; }; /*@\label{tutorial1:gravity}@*/
 
 // define how long the simulation should run [s]
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::Tutorial1Problem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 100e3;
-}; /*@\label{tutorial1:default-params-begin}@*/
+// template<class TypeTag>
+// struct EndTime<TypeTag, TTag::Tutorial1Problem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 100e3;
+// }; /*@\label{tutorial1:default-params-begin}@*/
 
 // define the size of the initial time step [s]
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::Tutorial1Problem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 125.0;
-};
+// template<class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::Tutorial1Problem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 125.0;
+// };
 
 // define the physical size of the problem's domain [m]
-template<class TypeTag>
-struct DomainSizeX<TypeTag, TTag::Tutorial1Problem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 300.0;
-}; /*@\label{tutorial1:grid-default-params-begin}@*/
-template<class TypeTag>
-struct DomainSizeY<TypeTag, TTag::Tutorial1Problem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 60.0;
-};
-template<class TypeTag>
-struct DomainSizeZ<TypeTag, TTag::Tutorial1Problem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 0.0;
-};
+// template<class TypeTag>
+// struct DomainSizeX<TypeTag, TTag::Tutorial1Problem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 300.0;
+// }; /*@\label{tutorial1:grid-default-params-begin}@*/
+// template<class TypeTag>
+// struct DomainSizeY<TypeTag, TTag::Tutorial1Problem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 60.0;
+// };
+// template<class TypeTag>
+// struct DomainSizeZ<TypeTag, TTag::Tutorial1Problem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 0.0;
+// };
 
 // // define the number of cells used for discretizing the physical domain
-template<class TypeTag>
-struct CellsX<TypeTag, TTag::Tutorial1Problem> { static constexpr unsigned value = 100; };
-template<class TypeTag>
-struct CellsY<TypeTag, TTag::Tutorial1Problem> { static constexpr unsigned value = 1; };
-template<class TypeTag>
-struct CellsZ<TypeTag, TTag::Tutorial1Problem> { static constexpr unsigned value = 1; }; /*@\label{tutorial1:default-params-end}@*/
+// template<class TypeTag>
+// struct CellsX<TypeTag, TTag::Tutorial1Problem> { static constexpr unsigned value = 100; };
+// template<class TypeTag>
+// struct CellsY<TypeTag, TTag::Tutorial1Problem> { static constexpr unsigned value = 1; };
+// template<class TypeTag>
+// struct CellsZ<TypeTag, TTag::Tutorial1Problem> { static constexpr unsigned value = 1; }; /*@\label{tutorial1:default-params-end}@*/
 
 } // namespace Opm::Properties
 

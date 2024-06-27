@@ -106,7 +106,7 @@ public:
 
         const auto& priVars = elemCtx.primaryVars(dofIdx, timeIdx);
         const auto& problem = elemCtx.problem();
-        Scalar flashTolerance = Parameters::get<TypeTag, Properties::FlashTolerance>();
+        Scalar flashTolerance = Parameters::get<Properties::FlashTolerance>();
 
         // extract the total molar densities of the components
         ComponentVector cTotal;

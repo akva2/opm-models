@@ -41,14 +41,22 @@ namespace Opm::Properties {
 template<class TypeTag, class MyTypeTag>
 struct FlashSolver { using type = UndefinedProperty; };
 //! The maximum accepted error of the flash solver
-template<class TypeTag, class MyTypeTag>
-struct FlashTolerance { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct FlashTolerance { using type = UndefinedProperty; };
+//! Let the flash solver choose its tolerance by default
+struct FlashTolerance
+{
+    using type = double;//GetPropType<TypeTag, Scalar>;
+    static constexpr type value = -1.0;
+};
 //! The verbosity level of the flash solver
-template<class TypeTag, class MyTypeTag>
-struct FlashVerbosity { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct FlashVerbosity { using type = UndefinedProperty; };
+struct FlashVerbosity { static constexpr int value = 0; };
 //! Two-phase flash method
-template<class TypeTag, class MyTypeTag>
-struct FlashTwoPhaseMethod { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct FlashTwoPhaseMethod { using type = UndefinedProperty; };
+struct FlashTwoPhaseMethod { static constexpr auto value = "ssi"; };
 
 } // namespace Opm::Properties
 

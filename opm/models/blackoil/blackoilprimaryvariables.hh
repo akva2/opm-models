@@ -44,9 +44,8 @@
 #include <opm/material/common/Valgrind.hpp>
 
 namespace Opm::Properties {
-    template<class TypeTag, class MyTypeTag>
     struct PressureScale {
-        using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
         static constexpr type value = 1.0;
     };
 }
@@ -212,12 +211,12 @@ public:
     static void init()
     {
         // TODO: these parameters have undocumented non-trivial dependencies
-        pressureScale_ = Parameters::get<TypeTag, Properties::PressureScale>();
+        pressureScale_ = Parameters::get<Properties::PressureScale>();
     }
 
     static void registerParameters()
     {
-        Parameters::registerParam<TypeTag, Properties::PressureScale>
+        Parameters::registerParam<Properties::PressureScale>
             ("Scaling of pressure primary variable");
     }
 

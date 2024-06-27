@@ -189,8 +189,8 @@ struct GridCommHandleFactory { using type = UndefinedProperty; };
  */
 template<class TypeTag, class MyTypeTag>
 struct ThreadManager { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct ThreadsPerProcess { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+struct ThreadsPerProcess { static constexpr int value = 2; };
 
 //! use locking to prevent race conditions when linearizing the global system of
 //! equations in multi-threaded mode. (setting this property to true is always save, but
@@ -207,14 +207,15 @@ struct UseLinearizationLock { using type = UndefinedProperty; };
  * Currently grid adaptation requires the presence of the dune-FEM module. If it is not
  * available and grid adaptation is enabled, an exception is thrown.
  */
-template<class TypeTag, class MyTypeTag>
-struct EnableGridAdaptation { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct EnableGridAdaptation { using type = UndefinedProperty; };
+struct EnableGridAdaptation { static constexpr bool value = false; };
 
 /*!
  * \brief The directory to which simulation output ought to be written to.
  */
-template<class TypeTag, class MyTypeTag>
-struct OutputDir { using type = UndefinedProperty; };
+//! By default, write the simulation output to the current working directory
+struct OutputDir { static constexpr auto value = "."; };
 
 /*!
  * \brief Global switch to enable or disable the writing of VTK output files
@@ -222,8 +223,10 @@ struct OutputDir { using type = UndefinedProperty; };
  * If writing VTK files is disabled, then the WriteVtk$FOO options do
  * not have any effect...
  */
-template<class TypeTag, class MyTypeTag>
-struct EnableVtkOutput { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct EnableVtkOutput { using type = UndefinedProperty; };
+struct EnableVtkOutput { static constexpr bool value = true; };
+
 
 /*!
  * \brief Determines if the VTK output is written to disk asynchronously
@@ -234,8 +237,8 @@ struct EnableVtkOutput { using type = UndefinedProperty; };
  * not support multi-threaded multi-process VTK output and even if it would, the result
  * would be slower than when using synchronous output.
  */
-template<class TypeTag, class MyTypeTag>
-struct EnableAsyncVtkOutput { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct EnableAsyncVtkOutput { using type = UndefinedProperty; };
 
 /*!
  * \brief Specify the format the VTK output is written to disk
@@ -249,7 +252,7 @@ struct EnableAsyncVtkOutput { using type = UndefinedProperty; };
 template<class TypeTag, class MyTypeTag>
 struct VtkOutputFormat { using type = UndefinedProperty; };
 
-//! Specify whether the some degrees of fredom can be constraint
+//! Specify whether the some degrees of freedom can be constrained
 template<class TypeTag, class MyTypeTag>
 struct EnableConstraints { using type = UndefinedProperty; };
 
@@ -258,31 +261,31 @@ struct EnableConstraints { using type = UndefinedProperty; };
  *
  * The default is to not limit the step size.
  */
-template<class TypeTag, class MyTypeTag>
-struct MaxTimeStepSize { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct MaxTimeStepSize { using type = UndefinedProperty; };
 
 /*!
  * \brief Specify the minimal size of a time integration [s].
  *
  * The default is to not limit the step size.
  */
-template<class TypeTag, class MyTypeTag>
-struct MinTimeStepSize { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct MinTimeStepSize { using type = UndefinedProperty; };
 
 /*!
  * \brief The maximum allowed number of timestep divisions for the
  *        Newton solver.
  */
-template<class TypeTag, class MyTypeTag>
-struct MaxTimeStepDivisions { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct MaxTimeStepDivisions { using type = UndefinedProperty; };
 
 /*!
  * \brief Continue with a non-converged solution instead of giving up
  *        if we encounter a time step size smaller than the minimum time
  *        step size.
  */
-template<class TypeTag, class MyTypeTag>
-struct ContinueOnConvergenceError { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct ContinueOnConvergenceError { using type = UndefinedProperty; };
 
 /*!
  * \brief Specify whether all intensive quantities for the grid should be
@@ -293,8 +296,8 @@ struct ContinueOnConvergenceError { using type = UndefinedProperty; };
  * may cause the simulation to exhibit worse cache coherence behavior
  * which eats some of the computational benefits again.
  */
-template<class TypeTag, class MyTypeTag>
-struct EnableIntensiveQuantityCache { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct EnableIntensiveQuantityCache { using type = UndefinedProperty; };
 
 /*!
  * \brief Specify whether the storage terms for previous solutions should be cached.
@@ -302,8 +305,8 @@ struct EnableIntensiveQuantityCache { using type = UndefinedProperty; };
  * This potentially reduces the CPU time, but comes at the cost of higher memory
  * consumption.
  */
-template<class TypeTag, class MyTypeTag>
-struct EnableStorageCache { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+struct EnableStorageCache { static constexpr bool value = false; };
 
 /*!
  * \brief Specify whether to use the already calculated solutions as
@@ -313,8 +316,8 @@ struct EnableStorageCache { using type = UndefinedProperty; };
  * very expensive (e.g. for non-linear fugacity functions where the
  * solver converges faster).
  */
-template<class TypeTag, class MyTypeTag>
-struct EnableThermodynamicHints { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct EnableThermodynamicHints { using type = UndefinedProperty; };
 
 // mappers from local to global DOF indices
 

@@ -249,14 +249,15 @@ template<class TypeTag, template<class,class> class Property>
 constexpr auto getPropValue() { return Properties::Detail::GetPropImpl<TypeTag, Property>::type::value; }
 
 //! get the name data member of a property
-template<class TypeTag, template<class,class> class Property>
+template<class Property>
 auto getPropName()
 {
-    using type = typename Properties::Detail::GetPropImpl<TypeTag,Property>::type;
-    if constexpr (Properties::Detail::has_name<type>::value) {
-        return Properties::Detail::GetPropImpl<TypeTag, Property>::type::name;
+    // using type = typename Property::type;
+    // using type = typename Properties::Detail::GetPropImpl<TypeTag,Property>::type;
+    if constexpr (Properties::Detail::has_name<Property>::value) {
+        return Property::name;// Properties::Detail::GetPropImpl<TypeTag, Property>::type::name;
     } else {
-        std::string paramName = Dune::className<type>();
+        std::string paramName = Dune::className<Property>();
         paramName.replace(0, std::strlen("Opm::Properties::"), "");
         const auto pos = paramName.find_first_of('<');
         paramName.erase(pos);

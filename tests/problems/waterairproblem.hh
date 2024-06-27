@@ -116,36 +116,36 @@ struct FluidSystem<TypeTag, TTag::WaterAirBaseProblem>
 { using type = Opm::H2OAirFluidSystem<GetPropType<TypeTag, Properties::Scalar>>; };
 
 // Enable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::WaterAirBaseProblem> { static constexpr bool value = true; };
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::WaterAirBaseProblem> { static constexpr bool value = true; };
 
 // Use forward differences instead of central differences
-template<class TypeTag>
-struct NumericDifferenceMethod<TypeTag, TTag::WaterAirBaseProblem> { static constexpr int value = +1; };
+// template<class TypeTag>
+// struct NumericDifferenceMethod<TypeTag, TTag::WaterAirBaseProblem> { static constexpr int value = +1; };
 
 // Write newton convergence
-template<class TypeTag>
-struct NewtonWriteConvergence<TypeTag, TTag::WaterAirBaseProblem> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct NewtonWriteConvergence<TypeTag, TTag::WaterAirBaseProblem> { static constexpr bool value = false; };
 
 // The default for the end time of the simulation (1 year)
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::WaterAirBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1.0 * 365 * 24 * 60 * 60;
-};
+// template<>
+// struct EndTime<TTag::WaterAirBaseProblem>
+// {
+//     using type = double;//GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1.0 * 365 * 24 * 60 * 60;
+// };
 
 // The default for the initial time step size of the simulation
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::WaterAirBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 250;
-};
+// template<class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::WaterAirBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 250;
+// };
 
 // The default DGF file to load
-template<class TypeTag>
-struct GridFile<TypeTag, TTag::WaterAirBaseProblem> { static constexpr auto value = "./data/waterair.dgf"; };
+// template<class TypeTag>
+// struct GridFile<TypeTag, TTag::WaterAirBaseProblem> { static constexpr auto value = "./data/waterair.dgf"; };
 
 // Use the restarted GMRES linear solver with the ILU-2 preconditioner from dune-istl
 template<class TypeTag>
@@ -159,8 +159,8 @@ struct LinearSolverWrapper<TypeTag, TTag::WaterAirBaseProblem>
 template<class TypeTag>
 struct PreconditionerWrapper<TypeTag, TTag::WaterAirBaseProblem>
 { using type = Opm::Linear::PreconditionerWrapperILU<TypeTag>; };
-template<class TypeTag>
-struct PreconditionerOrder<TypeTag, TTag::WaterAirBaseProblem> { static constexpr int value = 2; };
+// template<class TypeTag>
+// struct PreconditionerOrder<TypeTag, TTag::WaterAirBaseProblem> { static constexpr int value = 2; };
 
 } // namespace Opm::Properties
 

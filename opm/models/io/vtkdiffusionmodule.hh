@@ -48,20 +48,17 @@ struct VtkDiffusion {};
 } // namespace TTag
 
 // create the property tags needed for the diffusion module
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteTortuosities { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteDiffusionCoefficients { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteEffectiveDiffusionCoefficients { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteTortuosities { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteDiffusionCoefficients { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteEffectiveDiffusionCoefficients { using type = UndefinedProperty; };
 
 // set default values for what quantities to output
-template<class TypeTag>
-struct VtkWriteTortuosities<TypeTag, TTag::VtkDiffusion> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteDiffusionCoefficients<TypeTag, TTag::VtkDiffusion> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteEffectiveDiffusionCoefficients<TypeTag, TTag::VtkDiffusion> { static constexpr bool value = false; };
+struct VtkWriteTortuosities { static constexpr bool value = false; };
+struct VtkWriteDiffusionCoefficients { static constexpr bool value = false; };
+struct VtkWriteEffectiveDiffusionCoefficients { static constexpr bool value = false; };
 
 } // namespace Opm::Properties
 
@@ -108,12 +105,12 @@ public:
      */
     static void registerParameters()
     {
-        Parameters::registerParam<TypeTag, Properties::VtkWriteTortuosities>
+        Parameters::registerParam<Properties::VtkWriteTortuosities>
             ("Include the tortuosity for each phase in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteDiffusionCoefficients>
+        Parameters::registerParam<Properties::VtkWriteDiffusionCoefficients>
             ("Include the molecular diffusion coefficients in "
              "the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteEffectiveDiffusionCoefficients>
+        Parameters::registerParam<Properties::VtkWriteEffectiveDiffusionCoefficients>
             ("Include the effective molecular diffusion "
              "coefficients the medium in the VTK output files");
     }
@@ -138,7 +135,7 @@ public:
      */
     void processElement(const ElementContext& elemCtx)
     {
-        if (!Parameters::get<TypeTag, Properties::EnableVtkOutput>())
+        if (!Parameters::get<Properties::EnableVtkOutput>())
             return;
 
         for (unsigned i = 0; i < elemCtx.numPrimaryDof(/*timeIdx=*/0); ++i) {
@@ -184,19 +181,19 @@ public:
 private:
     static bool tortuosityOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteTortuosities>();
+        static bool val = Parameters::get<Properties::VtkWriteTortuosities>();
         return val;
     }
 
     static bool diffusionCoefficientOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteDiffusionCoefficients>();
+        static bool val = Parameters::get<Properties::VtkWriteDiffusionCoefficients>();
         return val;
     }
 
     static bool effectiveDiffusionCoefficientOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteEffectiveDiffusionCoefficients>();
+        static bool val = Parameters::get<Properties::VtkWriteEffectiveDiffusionCoefficients>();
         return val;
     }
 

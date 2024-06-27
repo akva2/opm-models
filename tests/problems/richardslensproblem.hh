@@ -100,44 +100,44 @@ public:
 };
 
 // Enable gravitational acceleration
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::RichardsLensProblem> { static constexpr bool value = true; };
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::RichardsLensProblem> { static constexpr bool value = true; };
 
 // Use central differences to approximate the Jacobian matrix
-template<class TypeTag>
-struct NumericDifferenceMethod<TypeTag, TTag::RichardsLensProblem> { static constexpr int value = 0; };
+// template<class TypeTag>
+// struct NumericDifferenceMethod<TypeTag, TTag::RichardsLensProblem> { static constexpr int value = 0; };
 
 // Set the maximum number of newton iterations of a time step
-template<class TypeTag>
-struct NewtonMaxIterations<TypeTag, TTag::RichardsLensProblem> { static constexpr int value = 28; };
+// template<class TypeTag>
+// struct NewtonMaxIterations<TypeTag, TTag::RichardsLensProblem> { static constexpr int value = 28; };
 
 // Set the "desireable" number of newton iterations of a time step
-template<class TypeTag>
-struct NewtonTargetIterations<TypeTag, TTag::RichardsLensProblem> { static constexpr int value = 18; };
+// template<class TypeTag>
+// struct NewtonTargetIterations<TypeTag, TTag::RichardsLensProblem> { static constexpr int value = 18; };
 
 // Do not write the intermediate results of the newton method
-template<class TypeTag>
-struct NewtonWriteConvergence<TypeTag, TTag::RichardsLensProblem> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct NewtonWriteConvergence<TypeTag, TTag::RichardsLensProblem> { static constexpr bool value = false; };
 
 // The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::RichardsLensProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 3000;
-};
+// template<class TypeTag>
+// struct EndTime<TypeTag, TTag::RichardsLensProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 3000;
+// };
 
 // The default for the initial time step size of the simulation
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::RichardsLensProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 100;
-};
+// template<class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::RichardsLensProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 100;
+// };
 
 // The default DGF file to load
-template<class TypeTag>
-struct GridFile<TypeTag, TTag::RichardsLensProblem> { static constexpr auto value = "./data/richardslens_24x16.dgf"; };
+// template<class TypeTag>
+// struct GridFile<TypeTag, TTag::RichardsLensProblem> { static constexpr auto value = "./data/richardslens_24x16.dgf"; };
 
 } // namespace Opm::Properties
 

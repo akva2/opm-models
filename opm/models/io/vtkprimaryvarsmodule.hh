@@ -27,6 +27,8 @@
 #ifndef EWOMS_VTK_PRIMARY_VARS_MODULE_HH
 #define EWOMS_VTK_PRIMARY_VARS_MODULE_HH
 
+#include <opm/models/discretization/common/fvbasediscretization.hh>
+
 #include <opm/models/io/baseoutputmodule.hh>
 #include <opm/models/io/vtkmultiwriter.hh>
 
@@ -43,19 +45,16 @@ struct VtkPrimaryVars {};
 } // namespace TTag
 
 // create the property tags needed for the primary variables module
-template<class TypeTag, class MyTypeTag>
-struct VtkWritePrimaryVars { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteProcessRank { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteDofIndex { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWritePrimaryVars { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteProcessRank { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteDofIndex { using type = UndefinedProperty; };
 
-template<class TypeTag>
-struct VtkWritePrimaryVars<TypeTag, TTag::VtkPrimaryVars> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteProcessRank<TypeTag, TTag::VtkPrimaryVars> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteDofIndex<TypeTag, TTag::VtkPrimaryVars> { static constexpr bool value = false; };
+struct VtkWritePrimaryVars { static constexpr bool value = false; };
+struct VtkWriteProcessRank { static constexpr bool value = false; };
+struct VtkWriteDofIndex { static constexpr bool value = false; };
 
 } // namespace Opm::Properties
 
@@ -93,11 +92,11 @@ public:
      */
     static void registerParameters()
     {
-        Parameters::registerParam<TypeTag, Properties::VtkWritePrimaryVars>
+        Parameters::registerParam<Properties::VtkWritePrimaryVars>
             ("Include the primary variables into the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteProcessRank>
+        Parameters::registerParam<Properties::VtkWriteProcessRank>
             ("Include the MPI process rank into the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteDofIndex>
+        Parameters::registerParam<Properties::VtkWriteDofIndex>
             ("Include the index of the degrees of freedom into the VTK output files");
     }
 
@@ -122,7 +121,7 @@ public:
      */
     void processElement(const ElementContext& elemCtx)
     {
-        if (!Parameters::get<TypeTag, Properties::EnableVtkOutput>())
+        if (!Parameters::get<Properties::EnableVtkOutput>())
             return;
 
         const auto& elementMapper = elemCtx.model().elementMapper();
@@ -168,17 +167,17 @@ public:
 private:
     static bool primaryVarsOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWritePrimaryVars>();
+        static bool val = Parameters::get<Properties::VtkWritePrimaryVars>();
         return val;
     }
     static bool processRankOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteProcessRank>();
+        static bool val = Parameters::get<Properties::VtkWriteProcessRank>();
         return val;
     }
     static bool dofIndexOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteDofIndex>();
+        static bool val = Parameters::get<Properties::VtkWriteDofIndex>();
         return val;
     }
 

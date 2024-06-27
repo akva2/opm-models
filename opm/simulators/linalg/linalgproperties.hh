@@ -53,20 +53,21 @@ struct LinearSolverScalar { using type = UndefinedProperty; };
  * of a grid, but it is only existant for the linear system of
  * equations.
  */
-template<class TypeTag, class MyTypeTag>
-struct LinearSolverOverlapSize { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct LinearSolverOverlapSize { using type = UndefinedProperty; };
+struct LinearSolverOverlapSize { static constexpr unsigned value = 2; };
 
 /*!
  * \brief Maximum accepted error of the solution of the linear solver.
  */
-template<class TypeTag, class MyTypeTag>
-struct LinearSolverTolerance { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct LinearSolverTolerance { using type = UndefinedProperty; };
 
 /*!
  * \brief Maximum accepted error of the norm of the residual.
  */
-template<class TypeTag, class MyTypeTag>
-struct LinearSolverAbsTolerance { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct LinearSolverAbsTolerance { using type = UndefinedProperty; };
 
 /*!
  * \brief Specifies the verbosity of the linear solver
@@ -75,24 +76,33 @@ struct LinearSolverAbsTolerance { using type = UndefinedProperty; };
  * property to 1 prints aggregated convergence rates, 2 prints the
  * convergence rate of every iteration of the scheme.
  */
-template<class TypeTag, class MyTypeTag>
-struct LinearSolverVerbosity { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct LinearSolverVerbosity { using type = UndefinedProperty; };
+struct LinearSolverVerbosity { static constexpr int value = 0; };
 
 //! Maximum number of iterations eyecuted by the linear solver
-template<class TypeTag, class MyTypeTag>
-struct LinearSolverMaxIterations { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct LinearSolverMaxIterations { using type = UndefinedProperty; };
+struct LinearSolverMaxIterations { static constexpr int value = 1000; };
 
 //! The order of the sequential preconditioner
-template<class TypeTag, class MyTypeTag>
-struct PreconditionerOrder { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct PreconditionerOrder { using type = UndefinedProperty; };
+struct PreconditionerOrder { static constexpr int value = 0; };
 
 //! The relaxation factor of the preconditioner
-template<class TypeTag, class MyTypeTag>
-struct PreconditionerRelaxation { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct PreconditionerRelaxation { using type = UndefinedProperty; };
+struct PreconditionerRelaxation
+{
+    using type = double;//GetPropType<TypeTag, Scalar>;
+    static constexpr type value = 1.0;
+};
 
 //! number of iterations between solver restarts for the GMRES solver
-template<class TypeTag, class MyTypeTag>
-struct GMResRestart { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct GMResRestart { using type = UndefinedProperty; };
+struct GMResRestart { static constexpr int value = 10; };
 
 //! The class that allows to manipulate sparse matrices
 template<class TypeTag, class MyTypeTag>
@@ -102,10 +112,10 @@ struct SparseMatrixAdapter { using type = UndefinedProperty; };
 template<class TypeTag, class MyTypeTag>
 struct GlobalEqVector { using type = UndefinedProperty; };
 
-template<class TypeTag, class MyTypeTag>
-struct AmgCoarsenTarget { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct LinearSolverMaxError { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct AmgCoarsenTarget { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct LinearSolverMaxError { using type = UndefinedProperty; };
 template<class TypeTag, class MyTypeTag>
 struct LinearSolverWrapper { using type = UndefinedProperty; };
 template<class TypeTag, class MyTypeTag>

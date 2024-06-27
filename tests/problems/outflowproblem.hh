@@ -73,32 +73,32 @@ public:
 };
 
 // Disable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::OutflowBaseProblem> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::OutflowBaseProblem> { static constexpr bool value = false; };
 
 // Also write mass fractions to the output
-template<class TypeTag>
-struct VtkWriteMassFractions<TypeTag, TTag::OutflowBaseProblem> { static constexpr bool value = true; };
+// template<class TypeTag>
+// struct VtkWriteMassFractions<TypeTag, TTag::OutflowBaseProblem> { static constexpr bool value = true; };
 
 // The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::OutflowBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 100;
-};
+// template<class TypeTag>
+// struct EndTime<TypeTag, TTag::OutflowBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 100;
+// };
 
 // The default for the initial time step size of the simulation
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::OutflowBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1;
-};
+// template<class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::OutflowBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1;
+// };
 
 // The default DGF file to load
-template<class TypeTag>
-struct GridFile<TypeTag, TTag::OutflowBaseProblem> { static constexpr auto value = "./data/outflow.dgf"; };
+// template<class TypeTag>
+// struct GridFile<TypeTag, TTag::OutflowBaseProblem> { static constexpr auto value = "./data/outflow.dgf"; };
 
 } // namespace Opm::Properties
 

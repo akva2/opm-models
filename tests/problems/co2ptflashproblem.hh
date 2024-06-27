@@ -67,15 +67,15 @@ namespace TTag {
 struct CO2PTBaseProblem {};
 } // end namespace TTag
 
-template <class TypeTag, class MyTypeTag>
-struct Temperature { using type = UndefinedProperty; };
-template <class TypeTag, class MyTypeTag>
-struct SimulationName { using type = UndefinedProperty; };
-template <class TypeTag, class MyTypeTag>
-struct EpisodeLength { using type = UndefinedProperty;};
+// template <class TypeTag, class MyTypeTag>
+// struct Temperature { using type = UndefinedProperty; };
+// template <class TypeTag, class MyTypeTag>
+// struct SimulationName { using type = UndefinedProperty; };
+// template <class TypeTag, class MyTypeTag>
+// struct EpisodeLength { using type = UndefinedProperty;};
 
-template <class TypeTag, class MyTypeTag>
-struct Initialpressure { using type = UndefinedProperty;};
+// template <class TypeTag, class MyTypeTag>
+// struct Initialpressure { using type = UndefinedProperty;};
 
 template <class TypeTag, class MyTypeTag>
 struct NumComp { using type = UndefinedProperty; };
@@ -141,116 +141,112 @@ public:
 };
 
 // Write the Newton convergence behavior to disk?
-template <class TypeTag>
-struct NewtonWriteConvergence<TypeTag, TTag::CO2PTBaseProblem> {
-static constexpr bool value = false; };
+// template <class TypeTag>
+// struct NewtonWriteConvergence<TypeTag, TTag::CO2PTBaseProblem> {
+// static constexpr bool value = false; };
 
 // Enable gravity false
-template <class TypeTag>
-struct EnableGravity<TypeTag, TTag::CO2PTBaseProblem> { static constexpr bool value = false;
-};
+// template <class TypeTag>
+// struct EnableGravity<TypeTag, TTag::CO2PTBaseProblem> { static constexpr bool value = false;
+// };
 
 // set the defaults for the problem specific properties
- template <class TypeTag>
- struct Temperature<TypeTag, TTag::CO2PTBaseProblem> {
-     using type = GetPropType<TypeTag, Scalar>;
-     static constexpr type value = 423.25;//TODO
+ struct Temperature {
+    using type = double;//GetPropType<TypeTag, Scalar>;
+    static constexpr type value = 423.25;//TODO
  };
 
-template <class TypeTag>
-struct Initialpressure<TypeTag, TTag::CO2PTBaseProblem> {
-    using type = GetPropType<TypeTag, Scalar>;
+struct Initialpressure {
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 75.e5;
 };
 
-template <class TypeTag>
-struct SimulationName<TypeTag, TTag::CO2PTBaseProblem> {
+struct SimulationName {
     static constexpr auto value = "co2_ptflash";
 };
 
 // The default for the end time of the simulation
-template <class TypeTag>
-struct EndTime<TypeTag, TTag::CO2PTBaseProblem> {
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 60. * 60.;
-};
+// template <class TypeTag>
+// struct EndTime<TypeTag, TTag::CO2PTBaseProblem> {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 60. * 60.;
+// };
 
 // convergence control
-template <class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::CO2PTBaseProblem> {
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 0.1 * 60. * 60.;
-};
+// template <class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::CO2PTBaseProblem> {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 0.1 * 60. * 60.;
+// };
 
-template <class TypeTag>
-struct LinearSolverTolerance<TypeTag, TTag::CO2PTBaseProblem> {
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1e-3;
-};
+// template <class TypeTag>
+// struct LinearSolverTolerance<TypeTag, TTag::CO2PTBaseProblem> {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1e-3;
+// };
 
-template <class TypeTag>
-struct LinearSolverAbsTolerance<TypeTag, TTag::CO2PTBaseProblem> {
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 0.;
-};
+// template <class TypeTag>
+// struct LinearSolverAbsTolerance<TypeTag, TTag::CO2PTBaseProblem> {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 0.;
+// };
 
-template <class TypeTag>
-struct NewtonTolerance<TypeTag, TTag::CO2PTBaseProblem> {
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1e-3;
-};
+// template <class TypeTag>
+// struct NewtonTolerance<TypeTag, TTag::CO2PTBaseProblem> {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1e-3;
+// };
 
-template <class TypeTag>
-struct NewtonMaxIterations<TypeTag, TTag::CO2PTBaseProblem> {
-    static constexpr int value = 30;
-};
+// template <class TypeTag>
+// struct NewtonMaxIterations<TypeTag, TTag::CO2PTBaseProblem> {
+//     static constexpr int value = 30;
+// };
 
-template <class TypeTag>
-struct NewtonTargetIterations<TypeTag, TTag::CO2PTBaseProblem> {
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 6;
-};
+// template <class TypeTag>
+// struct NewtonTargetIterations<TypeTag, TTag::CO2PTBaseProblem> {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 6;
+// };
 
 // output
-template <class TypeTag>
-struct VtkWriteFilterVelocities<TypeTag, TTag::CO2PTBaseProblem> {
-    static constexpr bool value = true;
-};
+// template <class TypeTag>
+// struct VtkWriteFilterVelocities<TypeTag, TTag::CO2PTBaseProblem> {
+//     static constexpr bool value = true;
+// };
 
-template <class TypeTag>
-struct VtkWritePotentialGradients<TypeTag, TTag::CO2PTBaseProblem> {
-    static constexpr bool value = true;
-};
+// template <class TypeTag>
+// struct VtkWritePotentialGradients<TypeTag, TTag::CO2PTBaseProblem> {
+//     static constexpr bool value = true;
+// };
 
-template <class TypeTag>
-struct VtkWriteTotalMassFractions<TypeTag, TTag::CO2PTBaseProblem> {
-    static constexpr bool value = true;
-};
+// template <class TypeTag>
+// struct VtkWriteTotalMassFractions<TypeTag, TTag::CO2PTBaseProblem> {
+//     static constexpr bool value = true;
+// };
 
-template <class TypeTag>
-struct VtkWriteTotalMoleFractions<TypeTag, TTag::CO2PTBaseProblem> {
-    static constexpr bool value = true;
-};
+// template <class TypeTag>
+// struct VtkWriteTotalMoleFractions<TypeTag, TTag::CO2PTBaseProblem> {
+//     static constexpr bool value = true;
+// };
 
-template <class TypeTag>
-struct VtkWriteFugacityCoeffs<TypeTag, TTag::CO2PTBaseProblem> {
-    static constexpr bool value = true;
-};
+// template <class TypeTag>
+// struct VtkWriteFugacityCoeffs<TypeTag, TTag::CO2PTBaseProblem> {
+//     static constexpr bool value = true;
+// };
 
-template <class TypeTag>
-struct VtkWriteLiquidMoleFractions<TypeTag, TTag::CO2PTBaseProblem> {
-    static constexpr bool value = true;
-};
+// template <class TypeTag>
+// struct VtkWriteLiquidMoleFractions<TypeTag, TTag::CO2PTBaseProblem> {
+//     static constexpr bool value = true;
+// };
 
-template <class TypeTag>
-struct VtkWriteEquilibriumConstants<TypeTag, TTag::CO2PTBaseProblem> {
-    static constexpr bool value = true;
-};
+// template <class TypeTag>
+// struct VtkWriteEquilibriumConstants<TypeTag, TTag::CO2PTBaseProblem> {
+//     static constexpr bool value = true;
+// };
 
 // this is kinds of telling the report step length
-template <class TypeTag>
-struct EpisodeLength<TypeTag, TTag::CO2PTBaseProblem> {
-    using type = GetPropType<TypeTag, Scalar>;
+struct EpisodeLength {
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 0.1 * 60. * 60.;
 };
 
@@ -263,32 +259,32 @@ struct Vanguard<TypeTag, TTag::CO2PTBaseProblem> {
 //\Note: from the Julia code, the problem is a 1D problem with 3X1 cell.
 //\Note: DomainSizeX is 3.0 meters
 //\Note: DomainSizeY is 1.0 meters
-template <class TypeTag>
-struct DomainSizeX<TypeTag, TTag::CO2PTBaseProblem> {
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 300; // meter
-};
+// template <class TypeTag>
+// struct DomainSizeX<TypeTag, TTag::CO2PTBaseProblem> {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 300; // meter
+// };
 
-template <class TypeTag>
-struct DomainSizeY<TypeTag, TTag::CO2PTBaseProblem> {
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1.0;
-};
+// template <class TypeTag>
+// struct DomainSizeY<TypeTag, TTag::CO2PTBaseProblem> {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1.0;
+// };
 
 // DomainSizeZ is not needed, while to keep structuredgridvanguard.hh compile
-template <class TypeTag>
-struct DomainSizeZ<TypeTag, TTag::CO2PTBaseProblem> {
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1.0;
-};
+// template <class TypeTag>
+// struct DomainSizeZ<TypeTag, TTag::CO2PTBaseProblem> {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1.0;
+// };
 
-template<class TypeTag>
-struct CellsX<TypeTag, TTag::CO2PTBaseProblem> { static constexpr unsigned value = 30; };
-template<class TypeTag>
-struct CellsY<TypeTag, TTag::CO2PTBaseProblem> { static constexpr unsigned value = 1; };
+// template<class TypeTag>
+// struct CellsX<TypeTag, TTag::CO2PTBaseProblem> { static constexpr unsigned value = 30; };
+// template<class TypeTag>
+// struct CellsY<TypeTag, TTag::CO2PTBaseProblem> { static constexpr unsigned value = 1; };
 // CellsZ is not needed, while to keep structuredgridvanguard.hh compile
-template<class TypeTag>
-struct CellsZ<TypeTag, TTag::CO2PTBaseProblem> { static constexpr unsigned value = 1; };
+// template<class TypeTag>
+// struct CellsZ<TypeTag, TTag::CO2PTBaseProblem> { static constexpr unsigned value = 1; };
 
 template <class TypeTag>
 struct EnableEnergy<TypeTag, TTag::CO2PTBaseProblem> {
@@ -337,7 +333,7 @@ class CO2PTProblem : public GetPropType<TypeTag, Properties::BaseProblem>
     enum { numComponents = getPropValue<TypeTag, Properties::NumComponents>() };
     enum { enableEnergy = getPropValue<TypeTag, Properties::EnableEnergy>() };
     enum { enableDiffusion = getPropValue<TypeTag, Properties::EnableDiffusion>() };
-    enum { enableGravity = getPropValue<TypeTag, Properties::EnableGravity>() };
+    enum { enableGravity = false /*getPropValue<TypeTag, Properties::EnableGravity>()*/ };
 
     using GlobalPosition = Dune::FieldVector<CoordScalar, dimWorld>;
     using DimMatrix = Dune::FieldMatrix<Scalar, dimWorld, dimWorld>;
@@ -353,7 +349,7 @@ public:
     explicit CO2PTProblem(Simulator& simulator)
         : ParentType(simulator)
     {
-        const Scalar epi_len = Parameters::get<TypeTag, Properties::EpisodeLength>();
+        const Scalar epi_len = Parameters::get<Properties::EpisodeLength>();
         simulator.setEpisodeLength(epi_len);
         FluidSystem::init();
         using CompParm = typename FluidSystem::ComponentParam;
@@ -371,7 +367,7 @@ public:
 
     void initPetrophysics()
     {
-        temperature_ = Parameters::get<TypeTag, Properties::Temperature>();
+        temperature_ = Parameters::get<Properties::Temperature>();
         K_ = this->toDimMatrix_(9.869232667160131e-14);
 
         porosity_ = 0.1;
@@ -406,13 +402,13 @@ public:
     {
         ParentType::registerParameters();
 
-        Parameters::registerParam<TypeTag, Properties::Temperature>
+        Parameters::registerParam<Properties::Temperature>
             ("The temperature [K] in the reservoir");
-        Parameters::registerParam<TypeTag, Properties::Initialpressure>
+        Parameters::registerParam<Properties::Initialpressure>
             ("The initial pressure [Pa s] in the reservoir");
-        Parameters::registerParam<TypeTag, Properties::SimulationName>
+        Parameters::registerParam<Properties::SimulationName>
             ("The name of the simulation used for the output files");
-        Parameters::registerParam<TypeTag, Properties::EpisodeLength>
+        Parameters::registerParam<Properties::EpisodeLength>
             ("Time interval [s] for episode length");
     }
 
@@ -422,7 +418,7 @@ public:
     std::string name() const
     {
         std::ostringstream oss;
-        oss << Parameters::get<TypeTag, Properties::SimulationName>();
+        oss << Parameters::get<Properties::SimulationName>();
         return oss.str();
     }
 
@@ -431,7 +427,7 @@ public:
     // the old one.
     void endEpisode()
     {
-        Scalar epi_len = Parameters::get<TypeTag, Properties::EpisodeLength>();
+        Scalar epi_len = Parameters::get<Properties::EpisodeLength>();
         this->simulator().startNextEpisode(epi_len);
     }
 
@@ -507,7 +503,7 @@ public:
     {
         int spatialIdx = context.globalSpaceIndex(spaceIdx, timeIdx);
         int inj = 0;
-        int prod = Parameters::get<TypeTag, Properties::CellsX>() - 1;
+        int prod = Parameters::get<Properties::CellsX>() - 1;
         if (spatialIdx == inj || spatialIdx == prod) {
             return 1.0;
         } else {
@@ -558,7 +554,7 @@ private:
         // p0 = 75e5
         // T0 = 423.25
         int inj = 0;
-        int prod = Parameters::get<TypeTag, Properties::CellsX>() - 1;
+        int prod = Parameters::get<Properties::CellsX>() - 1;
         int spatialIdx = context.globalSpaceIndex(spaceIdx, timeIdx);
         ComponentVector comp;
         comp[0] = Evaluation::createVariable(0.5, 1);
@@ -573,7 +569,7 @@ private:
         sat[0] = 1.0;
         sat[1] = 1.0 - sat[0];
 
-        Scalar p0 = Parameters::get<TypeTag, Properties::Initialpressure>();
+        Scalar p0 = Parameters::get<Properties::Initialpressure>();
 
         //\Note, for an AD variable, if we multiply it with 2, the derivative will also be scalced with 2,
         //\Note, so we should not do it.

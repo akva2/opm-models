@@ -131,12 +131,12 @@ public:
 
 // disable output of a few quantities which make sense in a
 // multi-phase but not in a single-phase context
-template<class TypeTag>
-struct VtkWriteSaturations<TypeTag, TTag::ImmiscibleSinglePhaseModel> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteMobilities<TypeTag, TTag::ImmiscibleSinglePhaseModel> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteRelativePermeabilities<TypeTag, TTag::ImmiscibleSinglePhaseModel> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct VtkWriteSaturations<TypeTag, TTag::ImmiscibleSinglePhaseModel> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct VtkWriteMobilities<TypeTag, TTag::ImmiscibleSinglePhaseModel> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct VtkWriteRelativePermeabilities<TypeTag, TTag::ImmiscibleSinglePhaseModel> { static constexpr bool value = false; };
 
 /////////////////////
 // set slightly different properties for the two-phase case

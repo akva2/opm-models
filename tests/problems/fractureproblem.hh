@@ -153,32 +153,32 @@ struct SolidEnergyLaw<TypeTag, TTag::FractureProblem>
 { using type = Opm::ConstantSolidHeatCapLaw<GetPropType<TypeTag, Properties::Scalar>>; };
 
 // Disable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::FractureProblem> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::FractureProblem> { static constexpr bool value = false; };
 
 // For this problem, we use constraints to specify the left boundary
 template<class TypeTag>
 struct EnableConstraints<TypeTag, TTag::FractureProblem> { static constexpr bool value = true; };
 
 // Set the default value for the file name of the grid
-template<class TypeTag>
-struct GridFile<TypeTag, TTag::FractureProblem> { static constexpr auto value = "data/fracture.art.dgf"; };
+// template<class TypeTag>
+// struct GridFile<TypeTag, TTag::FractureProblem> { static constexpr auto value = "data/fracture.art.dgf"; };
 
 // Set the default value for the end time
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::FractureProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 3e3;
-};
+// template<class TypeTag>
+// struct EndTime<TypeTag, TTag::FractureProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 3e3;
+// };
 
 // Set the default value for the initial time step size
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::FractureProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 100;
-};
+// template<class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::FractureProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 100;
+// };
 
 } // namespace Opm::Properties
 

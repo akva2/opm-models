@@ -106,23 +106,23 @@ public:
      */
     static void registerParameters()
     {
-        Parameters::registerParam<TypeTag, Properties::GridGlobalRefinements>
+        Parameters::registerParam<Properties::GridGlobalRefinements>
             ("The number of global refinements of the grid "
              "executed after it was loaded");
-        Parameters::registerParam<TypeTag, Properties::DomainSizeX>
+        Parameters::registerParam<Properties::DomainSizeX>
             ("The size of the domain in x direction");
-        Parameters::registerParam<TypeTag, Properties::CellsX>
+        Parameters::registerParam<Properties::CellsX>
             ("The number of intervalls in x direction");
         if (dim > 1) {
-            Parameters::registerParam<TypeTag, Properties::DomainSizeY>
+            Parameters::registerParam<Properties::DomainSizeY>
                 ("The size of the domain in y direction");
-            Parameters::registerParam<TypeTag, Properties::CellsY>
+            Parameters::registerParam<Properties::CellsY>
                 ("The number of intervalls in y direction");
         }
         if (dim > 2) {
-            Parameters::registerParam<TypeTag, Properties::DomainSizeZ>
+            Parameters::registerParam<Properties::DomainSizeZ>
                 ("The size of the domain in z direction");
-            Parameters::registerParam<TypeTag, Properties::CellsZ>
+            Parameters::registerParam<Properties::CellsZ>
                 ("The number of intervalls in z direction");
         }
     }
@@ -139,14 +139,14 @@ public:
         Dune::FieldVector<GridScalar, dim> upperRight;
         Dune::FieldVector<GridScalar, dim> lowerLeft( 0 );
 
-        upperRight[0] = Parameters::get<TypeTag, Properties::DomainSizeX>();
-        upperRight[1] = Parameters::get<TypeTag, Properties::DomainSizeY>();
+        upperRight[0] = Parameters::get<Properties::DomainSizeX>();
+        upperRight[1] = Parameters::get<Properties::DomainSizeY>();
 
-        cellRes[0] = Parameters::get<TypeTag, Properties::CellsX>();
-        cellRes[1] = Parameters::get<TypeTag, Properties::CellsY>();
+        cellRes[0] = Parameters::get<Properties::CellsX>();
+        cellRes[1] = Parameters::get<Properties::CellsY>();
         if (dim == 3) {
-            upperRight[2] = Parameters::get<TypeTag, Properties::DomainSizeZ>();
-            cellRes[2] = Parameters::get<TypeTag, Properties::CellsZ>();
+            upperRight[2] = Parameters::get<Properties::DomainSizeZ>();
+            cellRes[2] = Parameters::get<Properties::CellsZ>();
         }
 
         std::stringstream dgffile;
@@ -165,7 +165,7 @@ public:
         // use DGF parser to create a grid from interval block
         gridPtr_.reset( Dune::GridPtr< Grid >( dgffile ).release() );
 
-        unsigned numRefinements = Parameters::get<TypeTag, Properties::GridGlobalRefinements>();
+        unsigned numRefinements = Parameters::get<Properties::GridGlobalRefinements>();
         gridPtr_->globalRefine(static_cast<int>(numRefinements));
 
         this->finalizeInit_();

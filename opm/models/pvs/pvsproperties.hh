@@ -41,17 +41,17 @@
 namespace Opm::Properties {
 
 //! The verbosity of the model (0 -> do not print anything, 2 -> spam stdout a lot)
-template<class TypeTag, class MyTypeTag>
-struct PvsVerbosity { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct PvsVerbosity { using type = UndefinedProperty; };
 //! The basis value for the weight of the pressure primary variable
-template<class TypeTag, class MyTypeTag>
-struct PvsPressureBaseWeight { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct PvsPressureBaseWeight { using type = UndefinedProperty; };
 //! The basis value for the weight of the saturation primary variables
-template<class TypeTag, class MyTypeTag>
-struct PvsSaturationsBaseWeight { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct PvsSaturationsBaseWeight { using type = UndefinedProperty; };
 //! The basis value for the weight of the mole fraction primary variables
-template<class TypeTag, class MyTypeTag>
-struct PvsMoleFractionsBaseWeight { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct PvsMoleFractionsBaseWeight { using type = UndefinedProperty; };
 
 } // namespace Opm::Properties
 

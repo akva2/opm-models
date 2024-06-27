@@ -41,8 +41,8 @@ struct OutflowProblem { using InheritsFrom = std::tuple<OutflowBaseProblem, PvsM
 } // end namespace TTag
 
 // Verbosity of the PVS model (0=silent, 1=medium, 2=chatty)
-template<class TypeTag>
-struct PvsVerbosity<TypeTag, TTag::OutflowProblem> { static constexpr int value = 1; };
+// template<class TypeTag>
+// struct PvsVerbosity<TypeTag, TTag::OutflowProblem> { static constexpr int value = 1; };
 
 } // namespace Opm::Properties
 

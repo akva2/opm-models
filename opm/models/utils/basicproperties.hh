@@ -102,13 +102,13 @@ struct GridPart { using type = UndefinedProperty; };
 
 //! Property which tells the Vanguard how often the grid should be refined
 //! after creation.
-template<class TypeTag, class MyTypeTag>
-struct GridGlobalRefinements { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct GridGlobalRefinements { using type = UndefinedProperty; };
 
 //! Property provides the name of the file from which the additional runtime
 //! parameters should to be loaded from
-template<class TypeTag, class MyTypeTag>
-struct ParameterFile { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct ParameterFile { using type = UndefinedProperty; };
 
 /*!
  * \brief Print all properties on startup?
@@ -116,8 +116,8 @@ struct ParameterFile { using type = UndefinedProperty; };
  * 0 means 'no', 1 means 'yes', 2 means 'print only to logfiles'. The
  * default is 2.
  */
-template<class TypeTag, class MyTypeTag>
-struct PrintProperties { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct PrintProperties { using type = UndefinedProperty; };
 
 /*!
  * \brief Print all parameters on startup?
@@ -125,44 +125,35 @@ struct PrintProperties { using type = UndefinedProperty; };
  * 0 means 'no', 1 means 'yes', 2 means 'print only to logfiles'. The
  * default is 2.
  */
-template<class TypeTag, class MyTypeTag>
-struct PrintParameters { using type = UndefinedProperty; };
-
-//! The default value for the simulation's end time
-template<class TypeTag, class MyTypeTag>
-struct EndTime { using type = UndefinedProperty; };
-
-//! The default value for the simulation's initial time step size
-template<class TypeTag, class MyTypeTag>
-struct InitialTimeStepSize { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct PrintParameters { using type = UndefinedProperty; };
 
 //! The default value for the simulation's restart time
-template<class TypeTag, class MyTypeTag>
-struct RestartTime { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct RestartTime { using type = UndefinedProperty; };
 
 //! The name of the file with a number of forced time step lengths
-template<class TypeTag, class MyTypeTag>
-struct PredeterminedTimeStepsFile { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct PredeterminedTimeStepsFile { using type = UndefinedProperty; };
 
 //! domain size
-template<class TypeTag, class MyTypeTag>
-struct DomainSizeX { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct DomainSizeY { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct DomainSizeZ { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+struct DomainSizeX { static constexpr double value = 1.0; };
+// template<class TypeTag, class MyTypeTag>
+struct DomainSizeY { static constexpr double value = 1.0; };
+// template<class TypeTag, class MyTypeTag>
+struct DomainSizeZ { static constexpr double value = 1.0; };
 
 //! grid resolution
-template<class TypeTag, class MyTypeTag>
-struct CellsX { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct CellsY { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct CellsZ { using type = UndefinedProperty; };
+struct CellsX { static constexpr unsigned value = 3; };
+// template<class TypeTag, class MyTypeTag>
+struct CellsY { static constexpr unsigned value = 3; };
+// template<class TypeTag, class MyTypeTag>
+struct CellsZ { static constexpr unsigned value = 3; };
 
 //! name of the grid file
-template<class TypeTag, class MyTypeTag>
-struct GridFile { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct GridFile { using type = UndefinedProperty; };
 
 //! level of the grid view
 template<class TypeTag, class MyTypeTag>
@@ -207,8 +198,7 @@ template<class TypeTag>
 struct ModelParameterGroup<TypeTag, TTag::NumericModel> { static constexpr auto value = ""; };
 
 //! Set a value for the GridFile property
-template<class TypeTag>
-struct GridFile<TypeTag, TTag::NumericModel> { static constexpr auto value = ""; };
+struct GridFile { static constexpr auto value = ""; };
 
 #if HAVE_DUNE_FEM
 template<class TypeTag>
@@ -230,50 +220,41 @@ struct GridView<TypeTag, TTag::NumericModel> { using type = typename GetPropType
 #endif
 
 //! Set a value for the ParameterFile property
-template<class TypeTag>
-struct ParameterFile<TypeTag, TTag::NumericModel> { static constexpr auto value = ""; };
+struct ParameterFile { static constexpr auto value = ""; };
 
 //! Set the number of refinement levels of the grid to 0. This does not belong
 //! here, strictly speaking.
-template<class TypeTag>
-struct GridGlobalRefinements<TypeTag, TTag::NumericModel> { static constexpr unsigned value = 0; };
+struct GridGlobalRefinements { static constexpr unsigned value = 0; };
 
 //! By default, print the properties on startup
-template<class TypeTag>
-struct PrintProperties<TypeTag, TTag::NumericModel> { static constexpr int value = 2; };
+struct PrintProperties { static constexpr int value = 2; };
 
 //! By default, print the values of the run-time parameters on startup
-template<class TypeTag>
-struct PrintParameters<TypeTag, TTag::NumericModel> { static constexpr int value = 2; };
+struct PrintParameters { static constexpr int value = 2; };
 
 //! The default value for the simulation's end time
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::NumericModel>
+struct EndTime
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = -1e35;
 };
 
 //! The default value for the simulation's initial time step size
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::NumericModel>
+struct InitialTimeStepSize
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = -1e35;
 };
 
 //! The default value for the simulation's restart time
-template<class TypeTag>
-struct RestartTime<TypeTag, TTag::NumericModel>
+struct RestartTime
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = -1e35;
 };
 
 //! By default, do not force any time steps
-template<class TypeTag>
-struct PredeterminedTimeStepsFile<TypeTag, TTag::NumericModel> { static constexpr auto value = ""; };
-
+struct PredeterminedTimeStepsFile { static constexpr auto value = ""; };
 
 } // namespace Opm::Properties
 

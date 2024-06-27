@@ -77,16 +77,16 @@ struct FluidSystem<TypeTag, TTag::CuvetteBaseProblem>
 { using type = Opm::H2OAirMesityleneFluidSystem<GetPropType<TypeTag, Properties::Scalar>>; };
 
 // Enable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::CuvetteBaseProblem> { static constexpr bool value = true; };
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::CuvetteBaseProblem> { static constexpr bool value = true; };
 
 // Set the maximum time step
-template<class TypeTag>
-struct MaxTimeStepSize<TypeTag, TTag::CuvetteBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 600.;
-};
+// template<class TypeTag>
+// struct MaxTimeStepSize<TypeTag, TTag::CuvetteBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 600.;
+// };
 
 // Set the material Law
 template<class TypeTag>
@@ -125,24 +125,24 @@ public:
 };
 
 // The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::CuvetteBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 180;
-};
+// template<class TypeTag>
+// struct EndTime<TypeTag, TTag::CuvetteBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 180;
+// };
 
 // The default for the initial time step size of the simulation
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::CuvetteBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1;
-};
+// template<class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::CuvetteBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1;
+// };
 
 // The default DGF file to load
-template<class TypeTag>
-struct GridFile<TypeTag, TTag::CuvetteBaseProblem> { static constexpr auto value = "./data/cuvette_11x4.dgf"; };
+// template<class TypeTag>
+// struct GridFile<TypeTag, TTag::CuvetteBaseProblem> { static constexpr auto value = "./data/cuvette_11x4.dgf"; };
 
 } // namespace Opm::Properties
 

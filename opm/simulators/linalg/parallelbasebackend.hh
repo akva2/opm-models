@@ -27,6 +27,7 @@
 #ifndef EWOMS_PARALLEL_BASE_BACKEND_HH
 #define EWOMS_PARALLEL_BASE_BACKEND_HH
 
+#include "opm/models/discretization/common/fvbasediscretization.hh"
 #include <opm/common/Exceptions.hpp>
 
 #include <opm/simulators/linalg/istlsparsematrixadapter.hh>
@@ -152,15 +153,15 @@ public:
      */
     static void registerParameters()
     {
-        Parameters::registerParam<TypeTag, Properties::LinearSolverTolerance>
+        Parameters::registerParam<Properties::LinearSolverTolerance>
             ("The maximum allowed error between of the linear solver");
-        Parameters::registerParam<TypeTag, Properties::LinearSolverAbsTolerance>
+        Parameters::registerParam<Properties::LinearSolverAbsTolerance>
             ("The maximum accepted error of the norm of the residual");
-        Parameters::registerParam<TypeTag, Properties::LinearSolverOverlapSize>
+        Parameters::registerParam<Properties::LinearSolverOverlapSize>
             ("The size of the algebraic overlap for the linear solver");
-        Parameters::registerParam<TypeTag, Properties::LinearSolverMaxIterations>
+        Parameters::registerParam<Properties::LinearSolverMaxIterations>
             ("The maximum number of iterations of the linear solver");
-        Parameters::registerParam<TypeTag, Properties::LinearSolverVerbosity>
+        Parameters::registerParam<Properties::LinearSolverVerbosity>
             ("The verbosity level of the linear solver");
 
         PreconditionerWrapper::registerParameters();
@@ -195,7 +196,7 @@ public:
                                             simulator_.model().dofMapper());
 
         // create the overlapping Jacobian matrix
-        unsigned overlapSize = Parameters::get<TypeTag, Properties::LinearSolverOverlapSize>();
+        unsigned overlapSize = Parameters::get<Properties::LinearSolverOverlapSize>();
         overlappingMatrix_ = new OverlappingMatrix(M.istlMatrix(),
                                                    borderListCreator.borderList(),
                                                    borderListCreator.blackList(),
@@ -389,20 +390,19 @@ protected:
 namespace Opm::Properties {
 
 //! make the linear solver shut up by default
-template<class TypeTag>
-struct LinearSolverVerbosity<TypeTag, TTag::ParallelBaseLinearSolver> { static constexpr int value = 0; };
+// template<class TypeTag>
+// struct LinearSolverVerbosity<TypeTag, TTag::ParallelBaseLinearSolver> { static constexpr int value = 0; };
 
 //! set the preconditioner relaxation parameter to 1.0 by default
-template<class TypeTag>
-struct PreconditionerRelaxation<TypeTag, TTag::ParallelBaseLinearSolver>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1.0;
-};
+// struct PreconditionerRelaxation
+// {
+//     using type = double;//GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1.0;
+// };
 
 //! set the preconditioner order to 0 by default
-template<class TypeTag>
-struct PreconditionerOrder<TypeTag, TTag::ParallelBaseLinearSolver> { static constexpr int value = 0; };
+// template<class TypeTag>
+// struct PreconditionerOrder<TypeTag, TTag::ParallelBaseLinearSolver> { static constexpr int value = 0; };
 
 //! by default use the same kind of floating point values for the linearization and for
 //! the linear solve
@@ -459,12 +459,12 @@ struct PreconditionerWrapper<TypeTag, TTag::ParallelBaseLinearSolver>
 { using type = Opm::Linear::PreconditionerWrapperILU<TypeTag>; };
 
 //! set the default overlap size to 2
-template<class TypeTag>
-struct LinearSolverOverlapSize<TypeTag, TTag::ParallelBaseLinearSolver> { static constexpr unsigned value = 2; };
+// template<class TypeTag>
+// struct LinearSolverOverlapSize<TypeTag, TTag::ParallelBaseLinearSolver> { static constexpr unsigned value = 2; };
 
 //! set the default number of maximum iterations for the linear solver
-template<class TypeTag>
-struct LinearSolverMaxIterations<TypeTag, TTag::ParallelBaseLinearSolver> { static constexpr int value = 1000; };
+// template<class TypeTag>
+// struct LinearSolverMaxIterations<TypeTag, TTag::ParallelBaseLinearSolver> { static constexpr int value = 1000; };
 
 } // namespace Opm::Properties
 

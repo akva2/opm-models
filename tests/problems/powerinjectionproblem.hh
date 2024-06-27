@@ -120,55 +120,55 @@ public:
 };
 
 // Write out the filter velocities for this problem
-template<class TypeTag>
-struct VtkWriteFilterVelocities<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr bool value = true; };
+// template<class TypeTag>
+// struct VtkWriteFilterVelocities<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr bool value = true; };
 
 // Disable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr bool value = false; };
 
 // define the properties specific for the power injection problem
-template<class TypeTag>
-struct DomainSizeX<TypeTag, TTag::PowerInjectionBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 100.0;
-};
-template<class TypeTag>
-struct DomainSizeY<TypeTag, TTag::PowerInjectionBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1.0;
-};
-template<class TypeTag>
-struct DomainSizeZ<TypeTag, TTag::PowerInjectionBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1.0;
-};
+// template<class TypeTag>
+// struct DomainSizeX<TypeTag, TTag::PowerInjectionBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 100.0;
+// };
+// template<class TypeTag>
+// struct DomainSizeY<TypeTag, TTag::PowerInjectionBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1.0;
+// };
+// template<class TypeTag>
+// struct DomainSizeZ<TypeTag, TTag::PowerInjectionBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1.0;
+// };
 
-template<class TypeTag>
-struct CellsX<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr unsigned value = 250; };
-template<class TypeTag>
-struct CellsY<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr unsigned value = 1; };
-template<class TypeTag>
-struct CellsZ<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr unsigned value = 1; };
+// template<class TypeTag>
+// struct CellsX<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr unsigned value = 250; };
+// template<class TypeTag>
+// struct CellsY<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr unsigned value = 1; };
+// template<class TypeTag>
+// struct CellsZ<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr unsigned value = 1; };
 
 // The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::PowerInjectionBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 100;
-};
+// template<class TypeTag>
+// struct EndTime<TypeTag, TTag::PowerInjectionBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 100;
+// };
 
 // The default for the initial time step size of the simulation
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::PowerInjectionBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1e-3;
-};
+// template<class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::PowerInjectionBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1e-3;
+// };
 
 } // namespace Opm::Properties
 

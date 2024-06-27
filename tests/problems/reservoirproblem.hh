@@ -65,14 +65,14 @@ struct ReservoirBaseProblem {};
 } // namespace TTag
 
 // Maximum depth of the reservoir
-template<class TypeTag, class MyTypeTag>
-struct MaxDepth { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct MaxDepth { using type = UndefinedProperty; };
 // The temperature inside the reservoir
-template<class TypeTag, class MyTypeTag>
-struct Temperature { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct Temperature { using type = UndefinedProperty; };
 // The width of producer/injector wells as a fraction of the width of the spatial domain
-template<class TypeTag, class MyTypeTag>
-struct WellWidth { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct WellWidth { using type = UndefinedProperty; };
 
 // Set the grid type
 template<class TypeTag>
@@ -101,28 +101,26 @@ public:
 };
 
 // Write the Newton convergence behavior to disk?
-template<class TypeTag>
-struct NewtonWriteConvergence<TypeTag, TTag::ReservoirBaseProblem> { static constexpr bool value = false; };
+// template<class TypeTag>
+// struct NewtonWriteConvergence<TypeTag, TTag::ReservoirBaseProblem> { static constexpr bool value = false; };
 
 // Enable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::ReservoirBaseProblem> { static constexpr bool value = true; };
+// template<class TypeTag>
+// struct EnableGravity<TypeTag, TTag::ReservoirBaseProblem> { static constexpr bool value = true; };
 
 // Enable constraint DOFs?
-template<class TypeTag>
-struct EnableConstraints<TypeTag, TTag::ReservoirBaseProblem> { static constexpr bool value = true; };
+// template<class TypeTag>
+// struct EnableConstraints<TypeTag, TTag::ReservoirBaseProblem> { static constexpr bool value = true; };
 
 // set the defaults for some problem specific properties
-template<class TypeTag>
-struct MaxDepth<TypeTag, TTag::ReservoirBaseProblem>
+struct MaxDepth
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 2500;
 };
-template<class TypeTag>
-struct Temperature<TypeTag, TTag::ReservoirBaseProblem>
+struct Temperature
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 293.15;
 };
 
@@ -130,26 +128,25 @@ struct Temperature<TypeTag, TTag::ReservoirBaseProblem>
 //!
 //! By default this problem spans 1000 days (100 "settle down" days and 900 days of
 //! production)
-template<class TypeTag>
-struct EndTime<TypeTag, TTag::ReservoirBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1000.0*24*60*60;
-};
+// template<class TypeTag>
+// struct EndTime<TypeTag, TTag::ReservoirBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1000.0*24*60*60;
+// };
 
 // The default for the initial time step size of the simulation [s]
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, TTag::ReservoirBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 100e3;
-};
+// template<class TypeTag>
+// struct InitialTimeStepSize<TypeTag, TTag::ReservoirBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 100e3;
+// };
 
 // The width of producer/injector wells as a fraction of the width of the spatial domain
-template<class TypeTag>
-struct WellWidth<TypeTag, TTag::ReservoirBaseProblem>
+struct WellWidth
 {
-    using type = GetPropType<TypeTag, Scalar>;
+    using type = double;//GetPropType<TypeTag, Scalar>;
     static constexpr type value = 0.01;
 };
 
@@ -172,16 +169,16 @@ public:
 };
 
 // The default DGF file to load
-template<class TypeTag>
-struct GridFile<TypeTag, TTag::ReservoirBaseProblem> { static constexpr auto value = "data/reservoir.dgf"; };
+// template<class TypeTag>
+// struct GridFile<TypeTag, TTag::ReservoirBaseProblem> { static constexpr auto value = "data/reservoir.dgf"; };
 
 // increase the tolerance for this problem to get larger time steps
-template<class TypeTag>
-struct NewtonTolerance<TypeTag, TTag::ReservoirBaseProblem>
-{
-    using type = GetPropType<TypeTag, Scalar>;
-    static constexpr type value = 1e-6;
-};
+// template<class TypeTag>
+// struct NewtonTolerance<TypeTag, TTag::ReservoirBaseProblem>
+// {
+//     using type = GetPropType<TypeTag, Scalar>;
+//     static constexpr type value = 1e-6;
+// };
 
 } // namespace Opm::Properties
 
@@ -262,9 +259,9 @@ public:
     {
         ParentType::finishInit();
 
-        temperature_ = Parameters::get<TypeTag, Properties::Temperature>();
-        maxDepth_ = Parameters::get<TypeTag, Properties::MaxDepth>();
-        wellWidth_ = Parameters::get<TypeTag, Properties::WellWidth>();
+        temperature_ = Parameters::get<Properties::Temperature>();
+        maxDepth_ = Parameters::get<Properties::MaxDepth>();
+        wellWidth_ = Parameters::get<Properties::WellWidth>();
 
         std::vector<std::pair<Scalar, Scalar> > Bo = {
             { 101353, 1.062 },
@@ -426,11 +423,11 @@ public:
     {
         ParentType::registerParameters();
 
-        Parameters::registerParam<TypeTag, Properties::Temperature>
+        Parameters::registerParam<Properties::Temperature>
             ("The temperature [K] in the reservoir");
-        Parameters::registerParam<TypeTag, Properties::MaxDepth>
+        Parameters::registerParam<Properties::MaxDepth>
             ("The maximum depth [m] of the reservoir");
-        Parameters::registerParam<TypeTag, Properties::WellWidth>
+        Parameters::registerParam<Properties::WellWidth>
             ("The width of producer/injector wells as a fraction of the width"
              " of the spatial domain");
     }

@@ -75,8 +75,9 @@ struct FluxModule { using type = UndefinedProperty; };
 template<class TypeTag, class MyTypeTag>
 struct EnableEnergy { using type = UndefinedProperty; };
 //! Returns whether gravity is considered in the problem
-template<class TypeTag, class MyTypeTag>
-struct EnableGravity { using type = UndefinedProperty; };
+struct EnableGravity { static constexpr bool value = false; };
+// template<class TypeTag, class MyTypeTag>
+// struct EnableGravity { using type = UndefinedProperty; };
 //! Enable diffusive fluxes?
 template<class TypeTag, class MyTypeTag>
 struct EnableDiffusion { using type = UndefinedProperty; };

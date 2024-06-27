@@ -45,16 +45,14 @@ struct VtkPTFlash {};
 } // namespace TTag
 
 // create the property tags needed for the composition module
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteLiquidMoleFractions { using type = UndefinedProperty; };
-template<class TypeTag, class MyTypeTag>
-struct VtkWriteEquilibriumConstants { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteLiquidMoleFractions { using type = UndefinedProperty; };
+// template<class TypeTag, class MyTypeTag>
+// struct VtkWriteEquilibriumConstants { using type = UndefinedProperty; };
 
 // set default values for what quantities to output
-template<class TypeTag>
-struct VtkWriteLiquidMoleFractions<TypeTag, TTag::VtkPTFlash> { static constexpr bool value = false; };
-template<class TypeTag>
-struct VtkWriteEquilibriumConstants<TypeTag, TTag::VtkPTFlash> { static constexpr bool value = false; };
+struct VtkWriteLiquidMoleFractions { static constexpr bool value = false; };
+struct VtkWriteEquilibriumConstants { static constexpr bool value = false; };
 
 } // namespace Opm::Properties
 
@@ -99,9 +97,9 @@ public:
      */
     static void registerParameters()
     {
-        Parameters::registerParam<TypeTag, Properties::VtkWriteLiquidMoleFractions>
+        Parameters::registerParam<Properties::VtkWriteLiquidMoleFractions>
             ("Include liquid mole fractions (L) in the VTK output files");
-        Parameters::registerParam<TypeTag, Properties::VtkWriteEquilibriumConstants>
+        Parameters::registerParam<Properties::VtkWriteEquilibriumConstants>
             ("Include equilibrium constants (K) in the VTK output files");
     }
 
@@ -125,7 +123,7 @@ public:
     {
         using Toolbox = MathToolbox<Evaluation>;
 
-        if (!Parameters::get<TypeTag, Properties::EnableVtkOutput>())
+        if (!Parameters::get<Properties::EnableVtkOutput>())
             return;
 
         for (unsigned i = 0; i < elemCtx.numPrimaryDof(/*timeIdx=*/0); ++i) {
@@ -162,13 +160,13 @@ public:
 private:
     static bool LOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteLiquidMoleFractions>();
+        static bool val = Parameters::get<Properties::VtkWriteLiquidMoleFractions>();
         return val;
     }
 
     static bool equilConstOutput_()
     {
-        static bool val = Parameters::get<TypeTag, Properties::VtkWriteEquilibriumConstants>();
+        static bool val = Parameters::get<Properties::VtkWriteEquilibriumConstants>();
         return val;
     }
 
