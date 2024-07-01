@@ -123,10 +123,6 @@ public:
 template<class TypeTag>
 struct VtkWriteFilterVelocities<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr bool value = true; };
 
-// Disable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::PowerInjectionBaseProblem> { static constexpr bool value = false; };
-
 } // namespace Opm::Properties
 
 namespace Opm::Parameters {
@@ -164,6 +160,11 @@ struct DomainSizeZ<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
     using type = GetPropType<TypeTag, Properties::Scalar>;
     static constexpr type value = 1.0;
 };
+
+// Disable gravity
+template<class TypeTag>
+struct EnableGravity<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
+{ static constexpr bool value = false; };
 
 // The default for the end time of the simulation
 template<class TypeTag>

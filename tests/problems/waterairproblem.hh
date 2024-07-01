@@ -115,10 +115,6 @@ template<class TypeTag>
 struct FluidSystem<TypeTag, TTag::WaterAirBaseProblem>
 { using type = Opm::H2OAirFluidSystem<GetPropType<TypeTag, Properties::Scalar>>; };
 
-// Enable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::WaterAirBaseProblem> { static constexpr bool value = true; };
-
 // Use forward differences instead of central differences
 template<class TypeTag>
 struct NumericDifferenceMethod<TypeTag, TTag::WaterAirBaseProblem> { static constexpr int value = +1; };
@@ -141,6 +137,11 @@ struct PreconditionerOrder<TypeTag, TTag::WaterAirBaseProblem> { static constexp
 } // namespace Opm::Properties
 
 namespace Opm::Parameters {
+
+// Enable gravity
+template<class TypeTag>
+struct EnableGravity<TypeTag, Properties::TTag::WaterAirBaseProblem>
+{ static constexpr bool value = true; };
 
 // The default for the end time of the simulation (1 year)
 template<class TypeTag>

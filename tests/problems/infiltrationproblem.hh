@@ -70,10 +70,6 @@ template<class TypeTag>
 struct FluidSystem<TypeTag, TTag::InfiltrationBaseProblem>
 { using type = Opm::H2OAirMesityleneFluidSystem<GetPropType<TypeTag, Properties::Scalar>>; };
 
-// Enable gravity?
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::InfiltrationBaseProblem> { static constexpr bool value = true; };
-
 // -1 backward differences, 0: central differences, +1: forward differences
 template<class TypeTag>
 struct NumericDifferenceMethod<TypeTag, TTag::InfiltrationBaseProblem> { static constexpr int value = 1; };
@@ -99,6 +95,11 @@ public:
 } // namespace Opm::Properties
 
 namespace Opm::Parameters {
+
+// Enable gravity?
+template<class TypeTag>
+struct EnableGravity<TypeTag, Properties::TTag::InfiltrationBaseProblem>
+{ static constexpr bool value = true; };
 
 // The default for the end time of the simulation
 template<class TypeTag>
