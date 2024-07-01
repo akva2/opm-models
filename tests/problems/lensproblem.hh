@@ -129,10 +129,6 @@ public:
     using type = Opm::EffToAbsLaw<EffectiveLaw>;
 };
 
-// Use forward differences instead of central differences
-template<class TypeTag>
-struct NumericDifferenceMethod<TypeTag, TTag::LensBaseProblem> { static constexpr int value = +1; };
-
 // define the properties specific for the lens problem
 template<class TypeTag>
 struct LensLowerLeftX<TypeTag, TTag::LensBaseProblem>
@@ -247,6 +243,11 @@ struct InitialTimeStepSize<TypeTag, Properties::TTag::LensBaseProblem>
 template<class TypeTag>
 struct NewtonWriteConvergence<TypeTag, Properties::TTag::LensBaseProblem>
 { static constexpr bool value = false; };
+
+// Use forward differences instead of central differences
+template<class TypeTag>
+struct NumericDifferenceMethod<TypeTag, Properties::TTag::LensBaseProblem>
+{ static constexpr int value = +1; };
 
 } // namespace Opm::Parameters
 
