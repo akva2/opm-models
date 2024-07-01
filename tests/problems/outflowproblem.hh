@@ -72,10 +72,6 @@ public:
     using type = Opm::H2ON2LiquidPhaseFluidSystem<Scalar>;
 };
 
-// Also write mass fractions to the output
-template<class TypeTag>
-struct VtkWriteMassFractions<TypeTag, TTag::OutflowBaseProblem> { static constexpr bool value = true; };
-
 } // namespace Opm::Properties
 
 namespace Opm::Parameters {
@@ -105,6 +101,11 @@ struct InitialTimeStepSize<TypeTag, Properties::TTag::OutflowBaseProblem>
     using type = GetPropType<TypeTag, Properties::Scalar>;
     static constexpr type value = 1;
 };
+
+// Also write mass fractions to the output
+template<class TypeTag>
+struct VtkWriteMassFractions<TypeTag, Properties::TTag::OutflowBaseProblem>
+{ static constexpr bool value = true; };
 
 } // namespac Opm::Parameters
 
