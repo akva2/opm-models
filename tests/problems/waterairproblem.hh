@@ -127,8 +127,6 @@ struct LinearSolverWrapper<TypeTag, TTag::WaterAirBaseProblem>
 template<class TypeTag>
 struct PreconditionerWrapper<TypeTag, TTag::WaterAirBaseProblem>
 { using type = Opm::Linear::PreconditionerWrapperILU<TypeTag>; };
-template<class TypeTag>
-struct PreconditionerOrder<TypeTag, TTag::WaterAirBaseProblem> { static constexpr int value = 2; };
 
 } // namespace Opm::Properties
 
@@ -169,6 +167,10 @@ struct NewtonWriteConvergence<TypeTag, Properties::TTag::WaterAirBaseProblem>
 template<class TypeTag>
 struct NumericDifferenceMethod<TypeTag, Properties::TTag::WaterAirBaseProblem>
 { static constexpr int value = +1; };
+
+template<class TypeTag>
+struct PreconditionerOrder<TypeTag, Properties::TTag::WaterAirBaseProblem>
+{ static constexpr int value = 2; };
 
 } // namespace Opm::Parameters
 
