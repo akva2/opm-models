@@ -99,10 +99,6 @@ public:
     using type = Opm::EffToAbsLaw<EffectiveLaw>;
 };
 
-// Enable gravitational acceleration
-template<class TypeTag>
-struct EnableGravity<TypeTag, TTag::RichardsLensProblem> { static constexpr bool value = true; };
-
 // Use central differences to approximate the Jacobian matrix
 template<class TypeTag>
 struct NumericDifferenceMethod<TypeTag, TTag::RichardsLensProblem> { static constexpr int value = 0; };
@@ -110,6 +106,11 @@ struct NumericDifferenceMethod<TypeTag, TTag::RichardsLensProblem> { static cons
 } // namespace Opm::Properties
 
 namespace Opm::Parameters {
+
+// Enable gravitational acceleration
+template<class TypeTag>
+struct EnableGravity<TypeTag, Properties::TTag::RichardsLensProblem>
+{ static constexpr bool value = true; };
 
 // The default for the end time of the simulation
 template<class TypeTag>
