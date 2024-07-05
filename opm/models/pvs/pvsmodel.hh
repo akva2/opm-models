@@ -156,13 +156,7 @@ struct PvsMoleFractionsBaseWeight<TypeTag, TTag::PvsModel>
 namespace Opm::Parameters {
 
 //! The verbosity of the model (0 -> do not print anything, 2 -> spam stdout a lot)
-template<class TypeTag, class MyTypeTag>
-struct PvsVerbosity { using type = Properties::UndefinedProperty; };
-
-// set the model to a medium verbosity
-template<class TypeTag>
-struct PvsVerbosity<TypeTag, Properties::TTag::PvsModel>
-{ static constexpr int value = 1; };
+struct PvsVerbosity { static constexpr int value = 1; };
 
 } // namespace Opm::Parameters
 
@@ -294,7 +288,7 @@ public:
     PvsModel(Simulator& simulator)
         : ParentType(simulator)
     {
-        verbosity_ = Parameters::get<TypeTag, Parameters::PvsVerbosity>();
+        verbosity_ = Parameters::Get<Parameters::PvsVerbosity>();
         numSwitched_ = 0;
     }
 
@@ -315,7 +309,7 @@ public:
         if (enableEnergy)
             Opm::VtkEnergyModule<TypeTag>::registerParameters();
 
-        Parameters::registerParam<TypeTag, Parameters::PvsVerbosity>
+        Parameters::Register<Parameters::PvsVerbosity>
             ("The verbosity level of the primary variable "
              "switching model");
     }
