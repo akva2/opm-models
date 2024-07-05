@@ -108,12 +108,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::RichardsLensProblem>
 { static constexpr bool value = true; };
 
-// Set the "desireable" number of newton iterations of a time step
-template<class TypeTag>
-struct NewtonTargetIterations<TypeTag, Properties::TTag::RichardsLensProblem>
-{ static constexpr int value = 18; };
-
-// Set the maximum number of newton iterations of a time step
 template<class TypeTag>
 struct NewtonMaxIterations<TypeTag, Properties::TTag::RichardsLensProblem>
 { static constexpr int value = 28; };
@@ -251,6 +245,7 @@ public:
         Parameters::SetDefault<Parameters::EndTime<Scalar>>(3000.0);
         Parameters::SetDefault<Parameters::GridFile>("./data/richardslens_24x16.dgf");
         Parameters::SetDefault<Parameters::InitialTimeStepSize<Scalar>>(100);
+        Parameters::SetDefault<Parameters::NewtonTargetIterations>(18);
     }
 
     /*!
