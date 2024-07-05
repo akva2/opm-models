@@ -131,7 +131,7 @@ public:
      */
     void processElement(const ElementContext& elemCtx)
     {
-        if (!Parameters::get<TypeTag, Parameters::EnableVtkOutput>())
+        if (!Parameters::Get<Parameters::EnableVtkOutput>())
             return;
 
         const auto& elementMapper = elemCtx.model().elementMapper();

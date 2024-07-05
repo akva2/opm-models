@@ -249,7 +249,7 @@ public:
      */
     void processElement(const ElementContext& elemCtx)
     {
-        if (!Parameters::get<TypeTag, Parameters::EnableVtkOutput>())
+        if (!Parameters::Get<Parameters::EnableVtkOutput>())
             return;
 
         for (unsigned dofIdx = 0; dofIdx < elemCtx.numPrimaryDof(/*timeIdx=*/0); ++dofIdx) {

@@ -43,21 +43,20 @@ namespace Opm::Parameters {
 struct EnableGridAdaptation { static constexpr bool value = false; };
 
 /*!
+ * \brief Global switch to enable or disable the writing of VTK output files
+ *
+ * If writing VTK files is disabled, then the WriteVtk$FOO options do
+ * not have any effect...
+ */
+struct EnableVtkOutput { static constexpr bool value = true; };
+
+/*!
  * \brief The directory to which simulation output ought to be written to.
  */
 struct OutputDir { static constexpr auto value = "."; };
 
 //! \brief Number of threads per process.
 struct ThreadsPerProcess { static constexpr int value = 1; };
-
-/*!
- * \brief Global switch to enable or disable the writing of VTK output files
- *
- * If writing VTK files is disabled, then the WriteVtk$FOO options do
- * not have any effect...
- */
-template<class TypeTag, class MyTypeTag>
-struct EnableVtkOutput { using type = Properties::UndefinedProperty; };
 
 /*!
  * \brief Determines if the VTK output is written to disk asynchronously
