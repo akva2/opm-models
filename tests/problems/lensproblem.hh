@@ -139,18 +139,6 @@ template<class TypeTag, class MyTypeTag>
 struct LensUpperRightZ { using type = Properties::UndefinedProperty; };
 
 template<class TypeTag>
-struct CellsX<TypeTag, Properties::TTag::LensBaseProblem>
-{ static constexpr unsigned value = 48; };
-
-template<class TypeTag>
-struct CellsY<TypeTag, Properties::TTag::LensBaseProblem>
-{ static constexpr unsigned value = 32; };
-
-template<class TypeTag>
-struct CellsZ<TypeTag, Properties::TTag::LensBaseProblem>
-{ static constexpr unsigned value = 16; };
-
-template<class TypeTag>
 struct DomainSizeX<TypeTag, Properties::TTag::LensBaseProblem>
 {
     using type = GetPropType<TypeTag, Properties::Scalar>;
@@ -378,6 +366,10 @@ public:
         Parameters::SetDefault<Parameters::EnableIntensiveQuantityCache>(true);
         Parameters::SetDefault<Parameters::EnableStorageCache>(true);
         Parameters::SetDefault<Parameters::InitialTimeStepSize<Scalar>>(250.0);
+
+        Parameters::SetDefault<Parameters::CellsX>(48);
+        Parameters::SetDefault<Parameters::CellsY>(32);
+        Parameters::SetDefault<Parameters::CellsZ>(16);
     }
 
     /*!

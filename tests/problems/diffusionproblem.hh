@@ -110,18 +110,6 @@ struct EnableDiffusion<TypeTag, TTag::DiffusionBaseProblem> { static constexpr b
 
 namespace Opm::Parameters {
 
-template<class TypeTag>
-struct CellsX<TypeTag, Properties::TTag::DiffusionBaseProblem>
-{ static constexpr unsigned value = 250; };
-
-template<class TypeTag>
-struct CellsY<TypeTag, Properties::TTag::DiffusionBaseProblem>
-{ static constexpr unsigned value = 1; };
-
-template<class TypeTag>
-struct CellsZ<TypeTag, Properties::TTag::DiffusionBaseProblem>
-{ static constexpr unsigned value = 1; };
-
 // define the properties specific for the diffusion problem
 template<class TypeTag>
 struct DomainSizeX<TypeTag, Properties::TTag::DiffusionBaseProblem>
@@ -238,6 +226,10 @@ public:
 
         Parameters::SetDefault<Parameters::EndTime<Scalar>>(1e6);
         Parameters::SetDefault<Parameters::InitialTimeStepSize<Scalar>>(1000);
+
+        Parameters::SetDefault<Parameters::CellsX>(250);
+        Parameters::SetDefault<Parameters::CellsY>(1);
+        Parameters::SetDefault<Parameters::CellsZ>(1);
     }
 
     /*!

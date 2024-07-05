@@ -123,18 +123,6 @@ public:
 
 namespace Opm::Parameters {
 
-template<class TypeTag>
-struct CellsX<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
-{ static constexpr unsigned value = 250; };
-
-template<class TypeTag>
-struct CellsY<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
-{ static constexpr unsigned value = 1; };
-
-template<class TypeTag>
-struct CellsZ<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
-{ static constexpr unsigned value = 1; };
-
 // define the properties specific for the power injection problem
 template<class TypeTag>
 struct DomainSizeX<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
@@ -263,6 +251,10 @@ public:
 
         Parameters::SetDefault<Parameters::EndTime<Scalar>>(100.0);
         Parameters::SetDefault<Parameters::InitialTimeStepSize<Scalar>>(1e-3);
+
+        Parameters::SetDefault<Parameters::CellsX>(250);
+        Parameters::SetDefault<Parameters::CellsY>(1);
+        Parameters::SetDefault<Parameters::CellsZ>(1);
     }
 
     /*!
