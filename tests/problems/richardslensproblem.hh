@@ -108,10 +108,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::RichardsLensProblem>
 { static constexpr bool value = true; };
 
-template<class TypeTag>
-struct NewtonMaxIterations<TypeTag, Properties::TTag::RichardsLensProblem>
-{ static constexpr int value = 28; };
-
 // Use central differences to approximate the Jacobian matrix
 template<class TypeTag>
 struct NumericDifferenceMethod<TypeTag, Properties::TTag::RichardsLensProblem>
@@ -245,6 +241,7 @@ public:
         Parameters::SetDefault<Parameters::EndTime<Scalar>>(3000.0);
         Parameters::SetDefault<Parameters::GridFile>("./data/richardslens_24x16.dgf");
         Parameters::SetDefault<Parameters::InitialTimeStepSize<Scalar>>(100);
+        Parameters::SetDefault<Parameters::NewtonMaxIterations>(28);
         Parameters::SetDefault<Parameters::NewtonTargetIterations>(18);
     }
 
