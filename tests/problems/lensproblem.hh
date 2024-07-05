@@ -191,11 +191,6 @@ struct LensUpperRightZ<TypeTag, Properties::TTag::LensBaseProblem>
     static constexpr type value = 1.0;
 };
 
-// Use forward differences instead of central differences
-template<class TypeTag>
-struct NumericDifferenceMethod<TypeTag, Properties::TTag::LensBaseProblem>
-{ static constexpr int value = +1; };
-
 } // namespace Opm::Parameters
 
 namespace Opm {
@@ -207,7 +202,7 @@ namespace Opm {
  *        water saturated medium.
  *
  * The domain is sized 6m times 4m and features a rectangular lens
- * with low permeablility which spans from (1 m , 2 m) to (4 m, 3 m)
+ * with low permeablility which spans from (1m, 2m) to (4m, 3m)
  * and is surrounded by a medium with higher permability. Note that
  * this problem is discretized using only two dimensions, so from the
  * point of view of the model, the depth of the domain is implicitly
@@ -355,6 +350,9 @@ public:
         Parameters::SetDefault<Parameters::DomainSizeZ<Scalar>>(1.0);
 
         Parameters::SetDefault<Parameters::VtkWriteIntrinsicPermeabilities>(true);
+
+        // Use forward differences
+        Parameters::SetDefault<Parameters::NumericDifferenceMethod>(+1);
     }
 
     /*!

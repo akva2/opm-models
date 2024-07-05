@@ -28,25 +28,28 @@
 #ifndef EWOMS_WATER_AIR_PROBLEM_HH
 #define EWOMS_WATER_AIR_PROBLEM_HH
 
-#include <opm/models/pvs/pvsproperties.hh>
-#include <opm/simulators/linalg/parallelistlbackend.hh>
-
-#include <opm/material/fluidsystems/H2OAirFluidSystem.hpp>
-#include <opm/material/fluidstates/ImmiscibleFluidState.hpp>
-#include <opm/material/fluidstates/CompositionalFluidState.hpp>
-#include <opm/material/fluidmatrixinteractions/LinearMaterial.hpp>
-#include <opm/material/fluidmatrixinteractions/RegularizedBrooksCorey.hpp>
-#include <opm/material/fluidmatrixinteractions/EffToAbsLaw.hpp>
-#include <opm/material/fluidmatrixinteractions/MaterialTraits.hpp>
-#include <opm/material/thermal/ConstantSolidHeatCapLaw.hpp>
-#include <opm/material/thermal/SomertonThermalConductionLaw.hpp>
-#include <opm/material/constraintsolvers/ComputeFromReferencePhase.hpp>
+#include <dune/common/fmatrix.hh>
+#include <dune/common/fvector.hh>
 
 #include <dune/grid/yaspgrid.hh>
 #include <dune/grid/io/file/dgfparser/dgfyasp.hh>
 
-#include <dune/common/fvector.hh>
-#include <dune/common/fmatrix.hh>
+#include <opm/material/constraintsolvers/ComputeFromReferencePhase.hpp>
+#include <opm/material/fluidmatrixinteractions/LinearMaterial.hpp>
+#include <opm/material/fluidmatrixinteractions/RegularizedBrooksCorey.hpp>
+#include <opm/material/fluidmatrixinteractions/EffToAbsLaw.hpp>
+#include <opm/material/fluidmatrixinteractions/MaterialTraits.hpp>
+#include <opm/material/fluidstates/ImmiscibleFluidState.hpp>
+#include <opm/material/fluidstates/CompositionalFluidState.hpp>
+#include <opm/material/fluidsystems/H2OAirFluidSystem.hpp>
+#include <opm/material/thermal/ConstantSolidHeatCapLaw.hpp>
+#include <opm/material/thermal/SomertonThermalConductionLaw.hpp>
+
+#include <opm/models/discretization/common/fvbasefdlocallinearizer.hh>
+
+#include <opm/models/pvs/pvsproperties.hh>
+
+#include <opm/simulators/linalg/parallelistlbackend.hh>
 
 #include <sstream>
 #include <string>
@@ -136,11 +139,6 @@ namespace Opm::Parameters {
 template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::WaterAirBaseProblem>
 { static constexpr bool value = true; };
-
-// Use forward differences instead of central differences
-template<class TypeTag>
-struct NumericDifferenceMethod<TypeTag, Properties::TTag::WaterAirBaseProblem>
-{ static constexpr int value = +1; };
 
 template<class TypeTag>
 struct PreconditionerOrder<TypeTag, Properties::TTag::WaterAirBaseProblem>
@@ -300,6 +298,9 @@ public:
         Parameters::SetDefault<Parameters::EndTime<Scalar>>(1.0 * 365 * 24 * 60 * 60);
         Parameters::SetDefault<Parameters::GridFile>("./data/waterair.dgf");
         Parameters::SetDefault<Parameters::InitialTimeStepSize<Scalar>>(250.0);
+
+        // Use forward differences
+        Parameters::SetDefault<Parameters::NumericDifferenceMethod>(+1);
     }
 
     /*!
