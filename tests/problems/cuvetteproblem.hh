@@ -121,14 +121,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::CuvetteBaseProblem>
 { static constexpr bool value = true; };
 
-// The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, Properties::TTag::CuvetteBaseProblem>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 180;
-};
-
 // The default DGF file to load
 template<class TypeTag>
 struct GridFile<TypeTag, Properties::TTag::CuvetteBaseProblem>
@@ -307,6 +299,16 @@ public:
         solidEnergyLawParams_.finalize();
 
         initInjectFluidState_();
+    }
+
+    /*!
+     * \copydoc FvBaseMultiPhaseProblem::registerParameters
+     */
+    static void registerParameters()
+    {
+        ParentType::registerParameters();
+
+        Parameters::SetDefault<Parameters::EndTime<Scalar>>(100.0);
     }
 
     /*!

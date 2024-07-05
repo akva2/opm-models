@@ -165,14 +165,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::FractureProblem>
 { static constexpr bool value = false; };
 
-// Set the default value for the end time
-template<class TypeTag>
-struct EndTime<TypeTag, Properties::TTag::FractureProblem>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 3e3;
-};
-
 // Set the default value for the file name of the grid
 template<class TypeTag>
 struct GridFile<TypeTag, Properties::TTag::FractureProblem>
@@ -308,6 +300,16 @@ public:
 
         // initialize the energy-related parameters
         initEnergyParams_(thermalConductionParams_, matrixPorosity_);
+    }
+
+    /*!
+     * \copydoc FvBaseMultiPhaseProblem::registerParameters
+     */
+    static void registerParameters()
+    {
+        ParentType::registerParameters();
+
+        Parameters::SetDefault<Parameters::EndTime<Scalar>>(3e3);
     }
 
     /*!

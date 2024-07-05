@@ -137,14 +137,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::WaterAirBaseProblem>
 { static constexpr bool value = true; };
 
-// The default for the end time of the simulation (1 year)
-template<class TypeTag>
-struct EndTime<TypeTag, Properties::TTag::WaterAirBaseProblem>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 1.0 * 365 * 24 * 60 * 60;
-};
-
 // The default DGF file to load
 template<class TypeTag>
 struct GridFile<TypeTag, Properties::TTag::WaterAirBaseProblem>
@@ -316,6 +308,15 @@ public:
      * \name Problem parameters
      */
     //! \{
+    /*!
+     * \copydoc FvBaseMultiPhaseProblem::registerParameters
+     */
+    static void registerParameters()
+    {
+        ParentType::registerParameters();
+
+        Parameters::SetDefault<Parameters::EndTime<Scalar>>(1.0 * 365 * 24 * 60 * 60);
+    }
 
     /*!
      * \copydoc FvBaseProblem::name

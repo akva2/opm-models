@@ -53,8 +53,8 @@ template<class TypeTag, class MyTypeTag>
 struct DomainSizeZ { using type = Properties::UndefinedProperty; };
 
 //! The default value for the simulation's end time
-template<class TypeTag, class MyTypeTag>
-struct EndTime { using type = Properties::UndefinedProperty; };
+template<class Scalar>
+struct EndTime { static constexpr Scalar value = -1e35; };
 
 //! name of the grid file
 template<class TypeTag, class MyTypeTag>

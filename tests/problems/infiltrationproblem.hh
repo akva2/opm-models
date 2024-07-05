@@ -97,14 +97,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::InfiltrationBaseProblem>
 { static constexpr bool value = true; };
 
-// The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, Properties::TTag::InfiltrationBaseProblem>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 6e3;
-};
-
 // The default DGF file to load
 template<class TypeTag>
 struct GridFile<TypeTag, Properties::TTag::InfiltrationBaseProblem>
@@ -242,6 +234,16 @@ public:
 
         materialParams_.finalize();
         materialParams_.checkDefined();
+    }
+
+    /*!
+     * \copydoc FvBaseMultiPhaseProblem::registerParameters
+     */
+    static void registerParameters()
+    {
+        ParentType::registerParameters();
+
+        Parameters::SetDefault<Parameters::EndTime<Scalar>>(6e3);
     }
 
     /*!

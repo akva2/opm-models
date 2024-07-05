@@ -162,14 +162,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
 { static constexpr bool value = false; };
 
-// The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 100;
-};
-
 // The default for the initial time step size of the simulation
 template<class TypeTag>
 struct InitialTimeStepSize<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
@@ -268,6 +260,16 @@ public:
         K_ = this->toDimMatrix_(5.73e-08); // [m^2]
 
         setupInitialFluidState_();
+    }
+
+    /*!
+     * \copydoc FvBaseMultiPhaseProblem::registerParameters
+     */
+    static void registerParameters()
+    {
+        ParentType::registerParameters();
+
+        Parameters::SetDefault<Parameters::EndTime<Scalar>>(100.0);
     }
 
     /*!

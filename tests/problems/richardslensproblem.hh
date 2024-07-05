@@ -108,14 +108,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::RichardsLensProblem>
 { static constexpr bool value = true; };
 
-// The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, Properties::TTag::RichardsLensProblem>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 3000;
-};
-
 // The default DGF file to load
 template<class TypeTag>
 struct GridFile<TypeTag, Properties::TTag::RichardsLensProblem>
@@ -265,6 +257,16 @@ public:
                 dofIsInLens_[globalDofIdx] = isInLens_(dofPos);
             }
         }
+    }
+
+    /*!
+     * \copydoc FvBaseMultiPhaseProblem::registerParameters
+     */
+    static void registerParameters()
+    {
+        ParentType::registerParameters();
+
+        Parameters::SetDefault<Parameters::EndTime<Scalar>>(3000.0);
     }
 
     /*!

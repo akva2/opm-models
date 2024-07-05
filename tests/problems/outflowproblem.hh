@@ -81,14 +81,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::OutflowBaseProblem>
 { static constexpr bool value = false; };
 
-// The default for the end time of the simulation
-template<class TypeTag>
-struct EndTime<TypeTag, Properties::TTag::OutflowBaseProblem>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 100;
-};
-
 // The default DGF file to load
 template<class TypeTag>
 struct GridFile<TypeTag, Properties::TTag::OutflowBaseProblem>
@@ -185,6 +177,16 @@ public:
         perm_ = this->toDimMatrix_(1e-10);
         porosity_ = 0.4;
         tortuosity_ = 0.28;
+    }
+
+    /*!
+     * \copydoc FvBaseMultiPhaseProblem::registerParameters
+     */
+    static void registerParameters()
+    {
+        ParentType::registerParameters();
+
+        Parameters::SetDefault<Parameters::EndTime<Scalar>>(100.0);
     }
 
     /*!
