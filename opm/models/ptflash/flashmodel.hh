@@ -143,14 +143,6 @@ struct EnableEnergy<TypeTag, TTag::FlashModel>
 
 namespace Opm::Parameters {
 
-//! Let the flash solver choose its tolerance by default
-template<class TypeTag>
-struct FlashTolerance<TypeTag, Properties::TTag::FlashModel>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 1.e-12;
-};
-
 // Flash two-phase method
 template<class TypeTag>
 struct FlashTwoPhaseMethod<TypeTag, Properties::TTag::FlashModel>
@@ -248,7 +240,7 @@ public:
         if (enableEnergy)
             Opm::VtkEnergyModule<TypeTag>::registerParameters();
 
-        Parameters::registerParam<TypeTag, Parameters::FlashTolerance>
+        Parameters::Register<Parameters::FlashTolerance<Scalar>>
             ("The maximum tolerance for the flash solver to "
              "consider the solution converged");
         Parameters::registerParam<TypeTag, Parameters::FlashVerbosity>
@@ -263,6 +255,8 @@ public:
         // enabled, and this model usually shows quite a performance improvment if they are
         // enabled, let's enable them by default.
         Parameters::SetDefault<Parameters::EnableThermodynamicHints>(true);
+
+        Parameters::SetDefault<Parameters::FlashTolerance<Scalar>>(1e-12);
     }
 
     /*!

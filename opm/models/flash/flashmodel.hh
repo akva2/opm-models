@@ -118,18 +118,6 @@ struct EnableEnergy<TypeTag, TTag::FlashModel> { static constexpr bool value = f
 
 } // namespace Opm::Properties
 
-namespace Opm::Parameters {
-
-//! Let the flash solver choose its tolerance by default
-template<class TypeTag>
-struct FlashTolerance<TypeTag, Properties::TTag::FlashModel>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = -1.0;
-};
-
-} // namespace Opm::Parameters
-
 namespace Opm {
 
 /*!
@@ -231,7 +219,7 @@ public:
         if (enableEnergy)
             Opm::VtkEnergyModule<TypeTag>::registerParameters();
 
-        Parameters::registerParam<TypeTag, Parameters::FlashTolerance>
+        Parameters::Register<Parameters::FlashTolerance<Scalar>>
             ("The maximum tolerance for the flash solver to "
              "consider the solution converged");
 
