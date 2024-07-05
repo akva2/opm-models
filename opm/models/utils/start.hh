@@ -360,7 +360,7 @@ static inline int start(int argc, char **argv,  bool registerParams=true)
             if (printParams) {
                 bool printSeparator = false;
                 if (printParams == 1 || !isatty(fileno(stdout))) {
-                    Parameters::printValues<TypeTag>();
+                    Parameters::printValues();
                     printSeparator = true;
                 }
                 else
