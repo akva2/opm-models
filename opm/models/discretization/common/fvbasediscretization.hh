@@ -291,13 +291,6 @@ template<class TypeTag>
 struct ContinueOnConvergenceError<TypeTag, Properties::TTag::FvBaseDiscretization>
 { static constexpr bool value = false; };
 
-//! By default, write the VTK output to asynchronously to disk
-//!
-//! This has only an effect if EnableVtkOutput is true
-template<class TypeTag>
-struct EnableAsyncVtkOutput<TypeTag, Properties::TTag::FvBaseDiscretization>
-{ static constexpr bool value = true; };
-
 //! by default, disable the intensive quantity cache. If the intensive quantities are
 //! relatively cheap to calculate, the cache basically does not yield any performance
 //! impact because of the intensive quantity cache will cause additional pressure on the
