@@ -143,11 +143,6 @@ struct LensUpperRightY { using type = Properties::UndefinedProperty; };
 template<class TypeTag, class MyTypeTag>
 struct LensUpperRightZ { using type = Properties::UndefinedProperty; };
 
-// Enable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, Properties::TTag::LensBaseProblem>
-{ static constexpr bool value = true; };
-
 // define the properties specific for the lens problem
 template<class TypeTag>
 struct LensLowerLeftX<TypeTag, Properties::TTag::LensBaseProblem>
@@ -353,6 +348,8 @@ public:
 
         // Use forward differences
         Parameters::SetDefault<Parameters::NumericDifferenceMethod>(+1);
+
+        Parameters::SetDefault<Parameters::EnableGravity>(true);
     }
 
     /*!

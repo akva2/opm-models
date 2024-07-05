@@ -114,15 +114,6 @@ public:
 
 } // namespace Opm::Properties
 
-namespace Opm::Parameters {
-
-// Enable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, Properties::TTag::CuvetteBaseProblem>
-{ static constexpr bool value = true; };
-
-} // namespace Opm::Parameters
-
 namespace Opm {
 /*!
  * \ingroup TestProblems
@@ -291,6 +282,7 @@ public:
         Parameters::SetDefault<Parameters::GridFile>("./data/cuvette_11x4.dgf");
         Parameters::SetDefault<Parameters::InitialTimeStepSize<Scalar>>(1);
         Parameters::SetDefault<Parameters::MaxTimeStepSize<Scalar>>(600.);
+        Parameters::SetDefault<Parameters::EnableGravity>(true);
     }
 
     /*!

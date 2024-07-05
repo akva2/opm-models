@@ -135,11 +135,6 @@ struct PreconditionerWrapper<TypeTag, TTag::WaterAirBaseProblem>
 
 namespace Opm::Parameters {
 
-// Enable gravity
-template<class TypeTag>
-struct EnableGravity<TypeTag, Properties::TTag::WaterAirBaseProblem>
-{ static constexpr bool value = true; };
-
 template<class TypeTag>
 struct PreconditionerOrder<TypeTag, Properties::TTag::WaterAirBaseProblem>
 { static constexpr int value = 2; };
@@ -301,6 +296,8 @@ public:
 
         // Use forward differences
         Parameters::SetDefault<Parameters::NumericDifferenceMethod>(+1);
+
+        Parameters::SetDefault<Parameters::EnableGravity>(true);
     }
 
     /*!

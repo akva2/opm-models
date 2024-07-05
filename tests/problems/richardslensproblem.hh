@@ -101,15 +101,6 @@ public:
 
 } // namespace Opm::Properties
 
-namespace Opm::Parameters {
-
-// Enable gravitational acceleration
-template<class TypeTag>
-struct EnableGravity<TypeTag, Properties::TTag::RichardsLensProblem>
-{ static constexpr bool value = true; };
-
-} // namespace Opm::Parameters
-
 namespace Opm {
 
 /*!
@@ -241,6 +232,8 @@ public:
 
         // Use central differences to approximate the Jacobian matrix
         Parameters::SetDefault<Parameters::NumericDifferenceMethod>(0);
+
+        Parameters::SetDefault<Parameters::EnableGravity>(true);
     }
 
     /*!
