@@ -123,28 +123,6 @@ public:
 
 namespace Opm::Parameters {
 
-// define the properties specific for the power injection problem
-template<class TypeTag>
-struct DomainSizeX<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 100.0;
-};
-
-template<class TypeTag>
-struct DomainSizeY<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 1.0;
-};
-
-template<class TypeTag>
-struct DomainSizeZ<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 1.0;
-};
-
 // Disable gravity
 template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
@@ -255,6 +233,10 @@ public:
         Parameters::SetDefault<Parameters::CellsX>(250);
         Parameters::SetDefault<Parameters::CellsY>(1);
         Parameters::SetDefault<Parameters::CellsZ>(1);
+
+        Parameters::SetDefault<Parameters::DomainSizeX<Scalar>>(100.0);
+        Parameters::SetDefault<Parameters::DomainSizeY<Scalar>>(1.0);
+        Parameters::SetDefault<Parameters::DomainSizeZ<Scalar>>(1.0);
     }
 
     /*!
