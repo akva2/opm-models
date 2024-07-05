@@ -210,11 +210,6 @@ struct FluidSystemTemperatureLow<TypeTag, Properties::TTag::Co2InjectionBaseProb
     static constexpr type value = 290;
 };
 
-// The default DGF file to load
-template<class TypeTag>
-struct GridFile<TypeTag, Properties::TTag::Co2InjectionBaseProblem>
-{ static constexpr auto value = "data/co2injection.dgf"; };
-
 // The default for the initial time step size of the simulation
 template<class TypeTag>
 struct InitialTimeStepSize<TypeTag, Properties::TTag::Co2InjectionBaseProblem>
@@ -409,6 +404,7 @@ public:
             ("The name of the simulation used for the output files");
 
         Parameters::SetDefault<Parameters::EndTime<Scalar>>(1e4);
+        Parameters::SetDefault<Parameters::GridFile>("data/co2injection.dgf");
     }
 
     /*!

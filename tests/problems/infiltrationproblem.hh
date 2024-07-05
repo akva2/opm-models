@@ -97,11 +97,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::InfiltrationBaseProblem>
 { static constexpr bool value = true; };
 
-// The default DGF file to load
-template<class TypeTag>
-struct GridFile<TypeTag, Properties::TTag::InfiltrationBaseProblem>
-{ static constexpr auto value = "./data/infiltration_50x3.dgf"; };
-
 // The default for the initial time step size of the simulation
 template<class TypeTag>
 struct InitialTimeStepSize<TypeTag, Properties::TTag::InfiltrationBaseProblem>
@@ -244,6 +239,7 @@ public:
         ParentType::registerParameters();
 
         Parameters::SetDefault<Parameters::EndTime<Scalar>>(6e3);
+        Parameters::SetDefault<Parameters::GridFile>("./data/infiltration_50x3.dgf");
     }
 
     /*!

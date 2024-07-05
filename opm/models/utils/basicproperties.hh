@@ -179,11 +179,6 @@ struct Vanguard<TypeTag, TTag::NumericModel>
 
 namespace Opm::Parameters {
 
-//! Set a value for the GridFile property
-template<class TypeTag>
-struct GridFile<TypeTag, Properties::TTag::NumericModel>
-{ static constexpr auto value = ""; };
-
 //! The default value for the simulation's initial time step size
 template<class TypeTag>
 struct InitialTimeStepSize<TypeTag, Properties::TTag::NumericModel>

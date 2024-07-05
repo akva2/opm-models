@@ -108,11 +108,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::RichardsLensProblem>
 { static constexpr bool value = true; };
 
-// The default DGF file to load
-template<class TypeTag>
-struct GridFile<TypeTag, Properties::TTag::RichardsLensProblem>
-{ static constexpr auto value = "./data/richardslens_24x16.dgf"; };
-
 // The default for the initial time step size of the simulation
 template<class TypeTag>
 struct InitialTimeStepSize<TypeTag, Properties::TTag::RichardsLensProblem>
@@ -267,6 +262,7 @@ public:
         ParentType::registerParameters();
 
         Parameters::SetDefault<Parameters::EndTime<Scalar>>(3000.0);
+        Parameters::SetDefault<Parameters::GridFile>("./data/richardslens_24x16.dgf");
     }
 
     /*!
