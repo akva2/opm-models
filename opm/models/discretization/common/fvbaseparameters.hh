@@ -42,14 +42,13 @@ namespace Opm::Parameters {
  */
 struct EnableGridAdaptation { static constexpr bool value = false; };
 
-//! \brief Number of threads per process.
-struct ThreadsPerProcess { static constexpr int value = 1; };
-
 /*!
  * \brief The directory to which simulation output ought to be written to.
  */
-template<class TypeTag, class MyTypeTag>
-struct OutputDir { using type = Properties::UndefinedProperty; };
+struct OutputDir { static constexpr auto value = "."; };
+
+//! \brief Number of threads per process.
+struct ThreadsPerProcess { static constexpr int value = 1; };
 
 /*!
  * \brief Global switch to enable or disable the writing of VTK output files
