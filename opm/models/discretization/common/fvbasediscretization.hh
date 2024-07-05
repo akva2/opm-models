@@ -298,11 +298,6 @@ template<class TypeTag>
 struct EnableAsyncVtkOutput<TypeTag, Properties::TTag::FvBaseDiscretization>
 { static constexpr bool value = true; };
 
-//! Disable grid adaptation by default
-template<class TypeTag>
-struct EnableGridAdaptation<TypeTag, Properties::TTag::FvBaseDiscretization>
-{ static constexpr bool value = false; };
-
 //! by default, disable the intensive quantity cache. If the intensive quantities are
 //! relatively cheap to calculate, the cache basically does not yield any performance
 //! impact because of the intensive quantity cache will cause additional pressure on the
@@ -491,7 +486,7 @@ public:
         , newtonMethod_(simulator)
         , localLinearizer_(ThreadManager::maxThreads())
         , linearizer_(new Linearizer())
-        , enableGridAdaptation_(Parameters::get<TypeTag, Parameters::EnableGridAdaptation>() )
+        , enableGridAdaptation_(Parameters::Get<Parameters::EnableGridAdaptation>() )
         , enableIntensiveQuantityCache_(Parameters::get<TypeTag, Parameters::EnableIntensiveQuantityCache>())
         , enableStorageCache_(Parameters::get<TypeTag, Parameters::EnableStorageCache>())
         , enableThermodynamicHints_(Parameters::get<TypeTag, Parameters::EnableThermodynamicHints>())
@@ -548,7 +543,7 @@ public:
         // register runtime parameters of the output modules
         VtkPrimaryVarsModule<TypeTag>::registerParameters();
 
-        Parameters::registerParam<TypeTag, Parameters::EnableGridAdaptation>
+        Parameters::Register<Parameters::EnableGridAdaptation>
             ("Enable adaptive grid refinement/coarsening");
         Parameters::registerParam<TypeTag, Parameters::EnableVtkOutput>
             ("Global switch for turning on writing VTK files");
