@@ -219,11 +219,6 @@ struct LensUpperRightZ<TypeTag, Properties::TTag::LensBaseProblem>
     static constexpr type value = 1.0;
 };
 
-// Write the solutions of individual newton iterations?
-template<class TypeTag>
-struct NewtonWriteConvergence<TypeTag, Properties::TTag::LensBaseProblem>
-{ static constexpr bool value = false; };
-
 // Use forward differences instead of central differences
 template<class TypeTag>
 struct NumericDifferenceMethod<TypeTag, Properties::TTag::LensBaseProblem>

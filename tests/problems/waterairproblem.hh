@@ -137,11 +137,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::WaterAirBaseProblem>
 { static constexpr bool value = true; };
 
-// Write newton convergence
-template<class TypeTag>
-struct NewtonWriteConvergence<TypeTag, Properties::TTag::WaterAirBaseProblem>
-{ static constexpr bool value = false; };
-
 // Use forward differences instead of central differences
 template<class TypeTag>
 struct NumericDifferenceMethod<TypeTag, Properties::TTag::WaterAirBaseProblem>
