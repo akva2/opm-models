@@ -206,11 +206,6 @@ struct InitialTimeStepSize<TypeTag, Properties::TTag::NumericModel>
     static constexpr type value = -1e35;
 };
 
-//! By default, print the values of the run-time parameters on startup
-template<class TypeTag>
-struct PrintParameters<TypeTag, Properties::TTag::NumericModel>
-{ static constexpr int value = 2; };
-
 //! By default, print the properties on startup
 template<class TypeTag>
 struct PrintProperties<TypeTag, Properties::TTag::NumericModel>
