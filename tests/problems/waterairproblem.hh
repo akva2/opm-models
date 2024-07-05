@@ -137,14 +137,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::WaterAirBaseProblem>
 { static constexpr bool value = true; };
 
-// The default for the initial time step size of the simulation
-template<class TypeTag>
-struct InitialTimeStepSize<TypeTag, Properties::TTag::WaterAirBaseProblem>
-{
-    using type = GetPropType<TypeTag, Properties::Scalar>;
-    static constexpr type value = 250;
-};
-
 // Write newton convergence
 template<class TypeTag>
 struct NewtonWriteConvergence<TypeTag, Properties::TTag::WaterAirBaseProblem>
@@ -312,6 +304,7 @@ public:
 
         Parameters::SetDefault<Parameters::EndTime<Scalar>>(1.0 * 365 * 24 * 60 * 60);
         Parameters::SetDefault<Parameters::GridFile>("./data/waterair.dgf");
+        Parameters::SetDefault<Parameters::InitialTimeStepSize<Scalar>>(250.0);
     }
 
     /*!
