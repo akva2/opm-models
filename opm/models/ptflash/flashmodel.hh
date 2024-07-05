@@ -141,15 +141,6 @@ struct EnableEnergy<TypeTag, TTag::FlashModel>
 
 } // namespace Opm::Properties
 
-namespace Opm::Parameters {
-
-// Flash solver verbosity
-template<class TypeTag>
-struct FlashVerbosity<TypeTag, Properties::TTag::FlashModel>
-{ static constexpr int value = 0; };
-
-} // namespace Opm::Parameters
-
 namespace Opm {
 
 /*!
@@ -238,7 +229,7 @@ public:
         Parameters::Register<Parameters::FlashTolerance<Scalar>>
             ("The maximum tolerance for the flash solver to "
              "consider the solution converged");
-        Parameters::registerParam<TypeTag, Parameters::FlashVerbosity>
+        Parameters::Register<Parameters::FlashVerbosity>
             ("Flash solver verbosity level");
         Parameters::Register<Parameters::FlashTwoPhaseMethod>
             ("Method for solving vapor-liquid composition. Available options include: "
