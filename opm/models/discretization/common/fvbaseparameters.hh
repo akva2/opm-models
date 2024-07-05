@@ -34,8 +34,8 @@
 
 namespace Opm::Parameters {
 
-template<class TypeTag, class MyTypeTag>
-struct ThreadsPerProcess { using type = Properties::UndefinedProperty; };
+//! \brief Number of threads per process.
+struct ThreadsPerProcess { static constexpr int value = 1; };
 
 /*!
  * \brief Switch to enable or disable grid adaptation
