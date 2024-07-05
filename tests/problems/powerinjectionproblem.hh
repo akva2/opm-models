@@ -128,11 +128,6 @@ template<class TypeTag>
 struct EnableGravity<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
 { static constexpr bool value = false; };
 
-// Write out the filter velocities for this problem
-template<class TypeTag>
-struct VtkWriteFilterVelocities<TypeTag, Properties::TTag::PowerInjectionBaseProblem>
-{ static constexpr bool value = true; };
-
 } // namespace Opm::Parameters
 
 namespace Opm {
@@ -237,6 +232,8 @@ public:
         Parameters::SetDefault<Parameters::DomainSizeX<Scalar>>(100.0);
         Parameters::SetDefault<Parameters::DomainSizeY<Scalar>>(1.0);
         Parameters::SetDefault<Parameters::DomainSizeZ<Scalar>>(1.0);
+
+        Parameters::SetDefault<Parameters::VtkWriteFilterVelocities>(true);
     }
 
     /*!
